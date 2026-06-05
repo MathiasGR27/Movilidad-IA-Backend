@@ -35,6 +35,9 @@ def extraer_local(mensaje):
 
     patrones = [
         r"desde\s+(.*?)\s+hasta\s+(.*)",
+        r"desde\s+(.*?)\s+hacia\s+(.*)",
+        r"desde\s+(.*?)\s+a\s+la\s+(.*)",
+        r"desde\s+(.*?)\s+a\s+el\s+(.*)",
         r"desde\s+(.*?)\s+al\s+(.*)",
         r"desde\s+(.*?)\s+a\s+(.*)",
         r"del\s+(.*?)\s+al\s+(.*)",

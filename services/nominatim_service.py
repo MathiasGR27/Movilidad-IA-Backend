@@ -12,6 +12,15 @@ def buscar_lugar(nombre):
         "limit": 1
     }
 
+    ALIAS_LUGARES = {
+        "proletariado": "Cooperativa Proletariado, Santo Domingo, Ecuador",
+        "ciudad verde": "Ciudad Verde, Santo Domingo, Ecuador",
+        "shopping": "Paseo Shopping, Santo Domingo, Ecuador",
+        "terminal": "Terminal Terrestre Santo Domingo, Ecuador",
+        "porton": "Urbanización El Portón, Santo Domingo, Ecuador",
+        "chorrera": "La Chorrera, Santo Domingo, Ecuador"
+    }
+
     headers = {
         "User-Agent": "movilidad-ia-santo-domingo/1.0"
     }
