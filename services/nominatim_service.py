@@ -1,8 +1,14 @@
 import requests
-import time
+
+from services.lugares_service import buscar_lugar_local
+
 
 def buscar_lugar(nombre):
-    time.sleep(1)
+
+    lugar_local = buscar_lugar_local(nombre)
+
+    if lugar_local:
+        return lugar_local
 
     url = "https://nominatim.openstreetmap.org/search"
 
@@ -12,27 +18,29 @@ def buscar_lugar(nombre):
         "limit": 1
     }
 
-    ALIAS_LUGARES = {
-        "proletariado": "Cooperativa Proletariado, Santo Domingo, Ecuador",
-        "ciudad verde": "Ciudad Verde, Santo Domingo, Ecuador",
-        "shopping": "Paseo Shopping, Santo Domingo, Ecuador",
-        "terminal": "Terminal Terrestre Santo Domingo, Ecuador",
-        "porton": "Urbanización El Portón, Santo Domingo, Ecuador",
-        "chorrera": "La Chorrera, Santo Domingo, Ecuador"
-    }
-
     headers = {
         "User-Agent": "movilidad-ia-santo-domingo/1.0"
     }
 
-    response = requests.get(url, params=params, headers=headers)
-    data = response.json()
+    try:
 
-    if not data:
+        response = requests.get(
+            url,
+            params=params,
+            headers=headers,
+            timeout=5
+        )
+
+        data = response.json()
+
+        if not data:
+            return None
+
+        return {
+            "nombre": data[0]["display_name"],
+            "lat": float(data[0]["lat"]),
+            "lon": float(data[0]["lon"])
+        }
+
+    except Exception:
         return None
-
-    return {
-        "nombre": data[0]["display_name"],
-        "lat": float(data[0]["lat"]),
-        "lon": float(data[0]["lon"])
-    }

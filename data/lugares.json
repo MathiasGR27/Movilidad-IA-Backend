@@ -1,0 +1,194 @@
+{
+  "shopping": {
+    "nombre": "Paseo Shopping",
+    "lat": -0.249431,
+    "lon": -79.162103
+  },
+  "terminal": {
+    "nombre": "Terminal Terrestre",
+    "lat": -0.239148,
+    "lon": -79.170251
+  },
+  "terminal terrestre": {
+    "nombre": "Terminal Terrestre",
+    "lat": -0.239148,
+    "lon": -79.170251
+  },
+  "ciudad verde": {
+    "nombre": "Ciudad Verde",
+    "lat": -0.285869,
+    "lon": -79.182571
+  },
+  "proletariado": {
+    "nombre": "Cooperativa Proletariado",
+    "lat": -0.283389,
+    "lon": -79.211807
+  },
+  "porton": {
+    "nombre": "Urbanización El Portón",
+    "lat": -0.241555,
+    "lon": -79.193533
+  },
+  "chorrera": {
+    "nombre": "La Chorrera",
+    "lat": -0.258647,
+    "lon": -79.181127
+  },
+  "bomboli": {
+    "nombre": "Bombolí",
+    "lat": -0.246694,
+    "lon": -79.191402
+  },
+  "circulo de los continentes": {
+    "nombre": "Círculo de los Continentes",
+    "lat": -0.250251,
+    "lon": -79.162521
+  },
+  "parque de la juventud": {
+    "nombre": "Parque de la Juventud",
+    "lat": -0.247460,
+    "lon": -79.148671
+  },
+  "hospital gustavo dominguez": {
+    "nombre": "Hospital Gustavo Domínguez",
+    "lat": -0.247848,
+    "lon": -79.160630
+  },
+  "municipio": {
+    "nombre": "Municipio de Santo Domingo",
+    "lat": -0.254987,
+    "lon": -79.169289
+  },
+  "santa martha": {
+    "nombre": "Santa Martha",
+    "lat": -0.264712,
+    "lon": -79.182735
+  },
+  "los rosales": {
+    "nombre": "Los Rosales",
+    "lat": -0.243707,
+    "lon": -79.183828
+  },
+  "cooperativa 2 de mayo": {
+    "nombre": "Cooperativa 2 de Mayo",
+    "lat": -0.233305,
+    "lon": -79.181597
+  },
+  "rio verde": {
+    "nombre": "Río Verde",
+    "lat": -0.272541,
+    "lon": -79.160063
+  },
+  "plan de vivienda": {
+    "nombre": "Plan de Vivienda",
+    "lat": -0.256485,
+    "lon": -79.203847
+  },
+  "av quito": {
+    "nombre": "Avenida Quito",
+    "lat": -0.250999,
+    "lon": -79.163769
+  },
+  "av lorena": {
+    "nombre": "Avenida La Lorena",
+    "lat": -0.257587,
+    "lon": -79.151795
+  },
+  "uniandes": {
+    "nombre": "UNIANDES",
+    "lat": -0.259728,
+    "lon": -79.140903
+  },
+  "espe": {
+    "nombre": "Universidad ESPE Santo Domingo",
+    "lat": -0.410512,
+    "lon": -79.310746
+  },
+  "parque zaracay": {
+    "nombre": "Parque Zaracay",
+    "lat": -0.254235,
+    "lon": -79.167841
+  },
+  "colegio kasama": {
+    "nombre": "Unidad Educativa Kasama",
+    "lat": -0.249275,
+    "lon": -79.143848
+  },
+  "recinto ferial": {
+    "nombre": "Recinto Ferial",
+    "lat": -0.247805,
+    "lon": -79.155768
+  },
+  "mercado municipal": {
+    "nombre": "Mercado Municipal",
+    "lat": -0.251894,
+    "lon": -79.171792
+  },
+  "cooperativa las palmas": {
+    "nombre": "Las Palmas",
+    "lat": -0.250497,
+    "lon": -79.182493
+  },
+    "los unificados": {
+    "nombre": "Los Unificados",
+    "lat": -0.260970,
+    "lon": -79.153415
+  },
+  "cristo vive": {
+    "nombre": "Cristo Vive",
+    "lat": -0.277931,
+    "lon": -79.203644
+  },
+  "che guevara": {
+    "nombre": "Che Guevara",
+    "lat": -0.236331,
+    "lon": -79.185883
+  },
+  "30 de junio": {
+    "nombre": "Cooperativa 30 de Junio",
+    "lat": -0.254257,
+    "lon": -79.197395
+  },
+  "9 de diciembre": {
+    "nombre": "Cooperativa 9 de Diciembre",
+    "lat": -0.242423,
+    "lon": -79.158124
+  },
+  "las delicias": {
+    "nombre": "Las Delicias",
+    "lat": -0.234009,
+    "lon": -79.159574
+  },
+  "miraflores": {
+    "nombre": "Miraflores",
+    "lat": -0.256426,
+    "lon": -79.161701
+  },
+  "la aurora": {
+    "nombre": "La Aurora",
+    "lat": -0.2860,
+    "lon": -79.1880
+  },
+  "las mercedes": {
+    "nombre": "Las Mercedes",
+    "lat": -0.2410,
+    "lon": -79.1670
+  },
+
+  "los laureles": {
+    "nombre": "Los Laureles",
+    "lat": -0.2300,
+    "lon": -79.1450
+  },
+  "san gabriel": {
+    "nombre": "San Gabriel del Baba",
+    "lat": -0.303408,
+    "lon": -79.156900
+
+  },
+  "rio toachi": {
+    "nombre": "Río Toachi",
+    "lat": -0.2550,
+    "lon": -79.1400
+  }
+}
