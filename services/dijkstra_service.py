@@ -1,10 +1,16 @@
 import networkx as nx
-
-from services.grafo_service import construir_grafo
-from services.paradas_service import buscar_parada_mas_cercana
-
+from services.grafo_service import (
+    construir_grafo,
+    obtener_datos_parada,
+    calcular_distancia
+)
+from services.paradas_service import (
+    obtener_mejores_paradas
+)
 
 G = construir_grafo()
+
+PENALIZACION_TRANSBORDO = 200
 
 
 def obtener_linea_parada(nombre_parada):
@@ -22,7 +28,9 @@ def analizar_camino(camino):
 
     inicio_segmento = camino[0]
 
-    lineas.append(linea_actual)
+    lineas.append(
+        linea_actual
+    )
 
     transbordos = 0
 
@@ -46,7 +54,9 @@ def analizar_camino(camino):
             inicio_segmento = camino[i]
 
             if linea_actual not in lineas:
-                lineas.append(linea_actual)
+                lineas.append(
+                    linea_actual
+                )
 
     segmentos.append({
         "linea": linea_actual,
@@ -61,49 +71,158 @@ def analizar_camino(camino):
     }
 
 
-def buscar_ruta_optima(origen, destino):
+def calcular_puntaje(
+    total_paradas,
+    transbordos
+):
+    """
+    Menos transbordos tiene prioridad.
+    """
 
-    parada_origen = buscar_parada_mas_cercana(
+    return (
+        total_paradas
+        +
+        (
+            transbordos
+            * PENALIZACION_TRANSBORDO
+        )
+    )
+
+
+def buscar_ruta_optima(
+    origen,
+    destino
+):
+
+    paradas_origen = obtener_mejores_paradas(
         origen["lat"],
-        origen["lon"]
+        origen["lon"],
+        limite=10,
+        distancia_maxima=600
     )
 
-    parada_destino = buscar_parada_mas_cercana(
+    paradas_destino = obtener_mejores_paradas(
         destino["lat"],
-        destino["lon"]
+        destino["lon"],
+        limite=10,
+        distancia_maxima=600
     )
 
-    if not parada_origen:
-        return None
+    mejor_ruta = None
 
-    if not parada_destino:
-        return None
+    mejor_puntaje = float("inf")
 
-    nodo_inicio = parada_origen["nombre"]
-    nodo_fin = parada_destino["nombre"]
+    for parada_origen in paradas_origen:
 
-    try:
+        for parada_destino in paradas_destino:
 
-        camino = nx.dijkstra_path(
-            G,
-            nodo_inicio,
-            nodo_fin,
-            weight="peso"
-        )
+            try:
 
-        analisis = analizar_camino(
-            camino
-        )
+                camino = nx.dijkstra_path(
+                    G,
+                    parada_origen["nombre"],
+                    parada_destino["nombre"],
+                    weight="peso"
+                )
 
-        return {
-            "parada_origen": parada_origen,
-            "parada_destino": parada_destino,
-            "camino": camino,
-            "total_paradas": len(camino),
-            "lineas_utilizadas": analisis["lineas"],
-            "cantidad_transbordos": analisis["transbordos"],
-            "segmentos": analisis["segmentos"]
-        }
+                analisis = analizar_camino(
+                    camino
+                )
 
-    except nx.NetworkXNoPath:
-        return None
+                total_paradas = len(
+                    camino
+                )
+
+                transbordos = analisis[
+                    "transbordos"
+                ]
+
+                puntaje = calcular_puntaje(
+                    total_paradas,
+                    transbordos
+                )
+
+                if puntaje < mejor_puntaje:
+
+                    mejor_puntaje = puntaje
+
+                    mejor_ruta = {
+
+                        "parada_origen":
+                            parada_origen,
+
+                        "parada_destino":
+                            parada_destino,
+
+                        "camino":
+                            camino,
+
+                        "total_paradas":
+                            total_paradas,
+
+                        "lineas_utilizadas":
+                            analisis["lineas"],
+
+                        "cantidad_transbordos":
+                            transbordos,
+
+                        "segmentos":
+                            analisis["segmentos"],
+
+                        "puntaje":
+                            puntaje
+                    }
+
+            except nx.NetworkXNoPath:
+                continue
+
+    if mejor_ruta:
+
+        print("\nPARADAS DE TRANSBORDO")
+
+        mejor_camino = mejor_ruta["camino"]
+
+        for i in range(len(mejor_camino) - 1):
+
+            linea_a = obtener_linea_parada(
+                mejor_camino[i]
+            )
+
+            linea_b = obtener_linea_parada(
+                mejor_camino[i + 1]
+            )
+
+            if linea_a != linea_b:
+
+                parada_a = obtener_datos_parada(
+                    mejor_camino[i]
+                )
+
+                parada_b = obtener_datos_parada(
+                    mejor_camino[i + 1]
+                )
+
+                distancia = calcular_distancia(
+                    parada_a["lat"],
+                    parada_a["lon"],
+                    parada_b["lat"],
+                    parada_b["lon"]
+                )   
+
+                print(
+                    f"\nCambio de {linea_a} -> {linea_b}"
+                )
+
+                print(
+                    f"Última parada: {mejor_camino[i]}"
+                )
+
+                print(
+                    f"Primera parada: {mejor_camino[i + 1]}"
+                )
+
+                print(
+                    f"Distancia: {round(distancia,2)} m"
+                )
+
+        return mejor_ruta

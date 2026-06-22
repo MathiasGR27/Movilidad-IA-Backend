@@ -176,3 +176,27 @@ def construir_grafo():
     )
 
     return G
+
+def obtener_datos_parada(nombre_parada):
+
+    with open(
+        RUTA_PARADAS,
+        encoding="utf-8"
+    ) as f:
+
+        paradas = json.load(f)
+
+    for ruta, lista_paradas in paradas.items():
+
+        for parada in lista_paradas:
+
+            if parada["nombre"] == nombre_parada:
+
+                return {
+                    "ruta": ruta,
+                    "nombre": parada["nombre"],
+                    "lat": parada["lat"],
+                    "lon": parada["lon"]
+                }
+
+    return None
