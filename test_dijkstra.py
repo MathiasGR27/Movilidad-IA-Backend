@@ -43,3 +43,12 @@ print(ruta["parada_origen"])
 
 print("\nPARADA DESTINO")
 print(ruta["parada_destino"])
+
+print("\nGEOJSON")
+
+print(
+    ruta["geojson"]
+)
+
+print("\nTRANSBORDOS INFO")
+print(ruta["transbordos_info"])

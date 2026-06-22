@@ -13,9 +13,7 @@ with open(RUTA_LUGARES, encoding="utf-8") as f:
     LUGARES_LOCALES = json.load(f)
 
 
-def buscar_lugar_local(texto):
-    if not texto:
-        return None
+def normalizar_texto(texto):
 
     texto = texto.lower().strip()
 
@@ -24,5 +22,29 @@ def buscar_lugar_local(texto):
     texto = texto.replace("í", "i")
     texto = texto.replace("ó", "o")
     texto = texto.replace("ú", "u")
+
+    articulos = [
+        "el ",
+        "la ",
+        "los ",
+        "las "
+    ]
+
+    for articulo in articulos:
+
+        if texto.startswith(articulo):
+
+            texto = texto[len(articulo):]
+            break
+
+    return texto
+
+
+def buscar_lugar_local(texto):
+
+    if not texto:
+        return None
+
+    texto = normalizar_texto(texto)
 
     return LUGARES_LOCALES.get(texto)

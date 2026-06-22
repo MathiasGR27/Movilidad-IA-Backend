@@ -43,6 +43,20 @@ def chat():
         origen = buscar_lugar(origen_texto)
         destino = buscar_lugar(destino_texto)
 
+        print("\n====================")
+        print("ORIGEN TEXTO:")
+        print(origen_texto)
+
+        print("DESTINO TEXTO:")
+        print(destino_texto)
+
+        print("\nORIGEN ENCONTRADO:")
+        print(origen)
+
+        print("\nDESTINO ENCONTRADO:")
+        print(destino)
+        print("====================")
+
         if not origen:
 
             return jsonify({
@@ -67,6 +81,9 @@ def chat():
             origen,
             destino
         )
+
+        print("\nRUTA OPTIMA:")
+        print(ruta_optima)
 
         if ruta_optima:
 
@@ -140,6 +157,12 @@ def chat():
 
                 "segmentos":
                     segmentos,
+
+                "tramo_geojson":
+                    ruta_optima["geojson"],
+
+                "transbordos_info":
+                    ruta_optima["transbordos_info"],
 
                 "tipo":
                     "dijkstra"

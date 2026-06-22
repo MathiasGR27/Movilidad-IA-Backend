@@ -1,9 +1,15 @@
 import networkx as nx
+
 from services.grafo_service import (
     construir_grafo,
     obtener_datos_parada,
     calcular_distancia
 )
+
+from services.geojson_dijkstra_service import (
+    generar_geojson_camino
+)
+
 from services.paradas_service import (
     obtener_mejores_paradas
 )
@@ -76,7 +82,7 @@ def calcular_puntaje(
     transbordos
 ):
     """
-    Menos transbordos tiene prioridad.
+    Prioriza menos transbordos.
     """
 
     return (
@@ -146,6 +152,10 @@ def buscar_ruta_optima(
 
                     mejor_puntaje = puntaje
 
+                    geojson = generar_geojson_camino(
+                        camino
+                    )
+
                     mejor_ruta = {
 
                         "parada_origen":
@@ -170,17 +180,26 @@ def buscar_ruta_optima(
                             analisis["segmentos"],
 
                         "puntaje":
-                            puntaje
+                            puntaje,
+
+                        "geojson":
+                            geojson
                     }
 
             except nx.NetworkXNoPath:
                 continue
+
+    # ==========================================
+    # ANALIZAR TRANSBORDOS DE LA MEJOR RUTA
+    # ==========================================
 
     if mejor_ruta:
 
         print("\nPARADAS DE TRANSBORDO")
 
         mejor_camino = mejor_ruta["camino"]
+
+        transbordos_info = []
 
         for i in range(len(mejor_camino) - 1):
 
@@ -207,7 +226,30 @@ def buscar_ruta_optima(
                     parada_a["lon"],
                     parada_b["lat"],
                     parada_b["lon"]
-                )   
+                )
+
+                transbordos_info.append({
+
+                    "linea_origen": linea_a,
+                    "linea_destino": linea_b,
+
+                    "parada_salida": mejor_camino[i],
+                    "parada_llegada": mejor_camino[i + 1],
+
+                    "lat": parada_a["lat"],
+                    "lon": parada_a["lon"],
+
+                    "lat_salida": parada_a["lat"],
+                    "lon_salida": parada_a["lon"],
+
+                    "lat_llegada": parada_b["lat"],
+                    "lon_llegada": parada_b["lon"],
+
+                    "distancia": round(
+                        distancia,
+                        2
+                    )
+                })
 
                 print(
                     f"\nCambio de {linea_a} -> {linea_b}"
@@ -222,7 +264,11 @@ def buscar_ruta_optima(
                 )
 
                 print(
-                    f"Distancia: {round(distancia,2)} m"
+                    f"Distancia: {round(distancia, 2)} m"
                 )
 
-        return mejor_ruta
+        mejor_ruta["transbordos_info"] = (
+            transbordos_info
+        )
+
+    return mejor_ruta
