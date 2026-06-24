@@ -24,3 +24,13 @@ class User(db.Model):
         db.String(255),
         nullable=False
     )
+
+    viajes_consultados = db.Column(
+    db.Integer,
+    default=0
+    )
+
+    consultas_ia = db.Column(
+        db.Integer,
+        default=0
+    )

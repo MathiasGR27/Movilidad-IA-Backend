@@ -2,6 +2,10 @@ from flask import Blueprint, request, jsonify
 
 from services.gemini_service import extraer_origen_destino
 from services.nominatim_service import buscar_lugar
+from services.historial_service import guardar_historial
+
+from models.user_model import User
+from database.db import db
 
 # ALGORITMO NUEVO
 from services.dijkstra_service import buscar_ruta_optima
@@ -11,6 +15,7 @@ from services.dijkstra_service import buscar_ruta_optima
 # from services.route_segment_service import obtener_tramo_ruta
 # from services.transbordo_service import buscar_transbordo
 
+
 chat_bp = Blueprint("chat_bp", __name__)
 
 
@@ -18,11 +23,18 @@ chat_bp = Blueprint("chat_bp", __name__)
 def chat():
 
     data = request.get_json()
+
     mensaje = data.get("mensaje")
+    conversacion_id = data.get("conversacion_id")
 
     if not mensaje:
         return jsonify({
             "mensaje": "Debe enviar una consulta"
+        }), 400
+
+    if not conversacion_id:
+        return jsonify({
+            "mensaje": "Debe enviar el id de la conversación"
         }), 400
 
     try:
@@ -46,13 +58,10 @@ def chat():
         print("\n====================")
         print("ORIGEN TEXTO:")
         print(origen_texto)
-
         print("DESTINO TEXTO:")
         print(destino_texto)
-
         print("\nORIGEN ENCONTRADO:")
         print(origen)
-
         print("\nDESTINO ENCONTRADO:")
         print(destino)
         print("====================")
@@ -73,10 +82,6 @@ def chat():
                 "Intenta escribirlo con más detalle."
             }), 404
 
-        # ====================================================
-        # NUEVO MOTOR DE RUTAS BASADO EN GRAFOS + DIJKSTRA
-        # ====================================================
-
         ruta_optima = buscar_ruta_optima(
             origen,
             destino
@@ -88,7 +93,6 @@ def chat():
         if ruta_optima:
 
             segmentos = ruta_optima["segmentos"]
-
             transbordos = ruta_optima["cantidad_transbordos"]
 
             mensaje_respuesta = (
@@ -139,6 +143,30 @@ def chat():
                 f"{transbordos}"
             )
 
+            guardar_historial(
+                usuario_id=1,
+                conversacion_id=conversacion_id,
+                consulta=mensaje,
+                origen=origen_texto,
+                destino=destino_texto,
+                respuesta=mensaje_respuesta,
+                transbordos=transbordos
+            )
+
+            usuario = User.query.get(1)
+
+            if usuario:
+
+                usuario.viajes_consultados = (
+                    usuario.viajes_consultados or 0
+                ) + 1
+
+                usuario.consultas_ia = (
+                    usuario.consultas_ia or 0
+                ) + 1
+
+                db.session.commit()
+
             return jsonify({
 
                 "respuesta": mensaje_respuesta,
@@ -164,6 +192,9 @@ def chat():
                 "transbordos_info":
                     ruta_optima["transbordos_info"],
 
+                "conversacion_id":
+                    conversacion_id,
+
                 "tipo":
                     "dijkstra"
 
@@ -173,57 +204,6 @@ def chat():
             "respuesta":
             "No encontré una ruta válida para ese recorrido."
         }), 404
-
-        # ====================================================
-        # CÓDIGO ANTIGUO (NO BORRAR TODAVÍA)
-        # ====================================================
-
-        # recomendacion = recomendar_linea(
-        #     origen,
-        #     destino
-        # )
-
-        # if recomendacion:
-        #
-        #     tramo_geojson = obtener_tramo_ruta(
-        #         recomendacion["linea"],
-        #         origen,
-        #         destino
-        #     )
-        #
-        #     respuesta = f"""
-        # Encontré una ruta directa para ti.
-        #
-        # Puedes tomar la {recomendacion['linea']}
-        # desde una parada cercana a {origen_texto}
-        # y bajarte cerca de {destino_texto}.
-        #
-        # El recorrido aproximado se muestra en el mapa.
-        # """
-        #
-        #     return jsonify({
-        #         "respuesta": respuesta.strip(),
-        #         "tramo_geojson": tramo_geojson
-        #     }), 200
-
-        # transbordo = buscar_transbordo(
-        #     origen,
-        #     destino
-        # )
-
-        # if transbordo:
-        #
-        #     respuesta = f"""
-        # Encontré una alternativa con transbordo.
-        #
-        # 1. Toma {transbordo['linea_1']}
-        # 2. Realiza transbordo
-        # 3. Toma {transbordo['linea_2']}
-        # """
-        #
-        #     return jsonify({
-        #         "respuesta": respuesta.strip()
-        #     }), 200
 
     except Exception as e:
 

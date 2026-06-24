@@ -9,6 +9,9 @@ from database.db import db
 from routes.auth_routes import auth_bp
 from routes.geojson_routes import geojson_bp
 from routes.chat_routes import chat_bp
+from routes.historial_routes import historial_bp
+from routes.user_routes import user_bp
+from routes.conversacion_routes import (conversacion_bp)
 
 load_dotenv()
 
@@ -24,6 +27,9 @@ db.init_app(app)
 app.register_blueprint(auth_bp, url_prefix="/api/auth")
 app.register_blueprint(geojson_bp, url_prefix="/api")
 app.register_blueprint(chat_bp, url_prefix="/api")
+app.register_blueprint(historial_bp,url_prefix="/api")
+app.register_blueprint(user_bp,url_prefix="/api")
+app.register_blueprint(conversacion_bp,url_prefix="/api")
 
 @app.route("/")
 def home():
