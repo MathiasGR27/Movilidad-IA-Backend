@@ -1,7 +1,6 @@
 from database.db import db
 from models.historial_model import HistorialRuta
 
-
 def guardar_historial(
     usuario_id,
     conversacion_id,

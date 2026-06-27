@@ -1,6 +1,6 @@
 from database.db import db
 from models.conversacion_model import Conversacion
-
+from models.historial_model import HistorialRuta    
 
 def crear_conversacion(usuario_id):
 
@@ -41,21 +41,48 @@ def obtener_conversacion(conversacion_id):
 
     return resultado
 
-def obtener_conversaciones_usuario(usuario_id):
 
+def obtener_conversaciones_usuario(usuario_id):
+    # 1. Obtenemos todas las conversaciones del usuario
     conversaciones = Conversacion.query.filter_by(
         usuario_id=usuario_id
     ).order_by(
         Conversacion.fecha.desc()
     ).all()
 
-    return [
-        {
+    resultado = []
+    
+    for c in conversaciones:
+        primer_historial = HistorialRuta.query.filter_by(
+            conversacion_id=c.id
+        ).order_by(
+            HistorialRuta.fecha.asc() 
+        ).first() 
+
+        texto_consulta = primer_historial.consulta if primer_historial else "Sin consultas"
+
+        resultado.append({
             "id": c.id,
-            "fecha": c.fecha.strftime(
-                "%Y-%m-%d %H:%M"
-            )
-            
-        }
-        for c in conversaciones
-    ]
+            "fecha": c.fecha.strftime("%Y-%m-%d %H:%M"),
+            "titulo": texto_consulta
+        })
+
+    return resultado
+
+def eliminar_conversacion(conversacion_id):
+
+    HistorialRuta.query.filter_by(
+
+        conversacion_id=conversacion_id
+
+    ).delete()
+
+    Conversacion.query.filter_by(
+
+        id=conversacion_id
+
+    ).delete()
+
+    db.session.commit()
+
+    return True

@@ -3,7 +3,8 @@ from flask import Blueprint, jsonify
 from services.conversacion_service import (
     crear_conversacion,
     obtener_conversaciones_usuario,
-    obtener_conversacion
+    obtener_conversacion,
+    eliminar_conversacion
 )
 
 conversacion_bp = Blueprint(
@@ -47,3 +48,23 @@ def detalle(id):
     return jsonify(
         obtener_conversacion(id)
     )
+
+@conversacion_bp.route(
+
+    "/conversaciones/<int:id>",
+
+    methods=["DELETE"]
+
+)
+
+def borrar_conversacion(id):
+
+    eliminar_conversacion(id)
+
+    return jsonify({
+
+        "mensaje":
+
+        "Conversación eliminada"
+
+    }),200
