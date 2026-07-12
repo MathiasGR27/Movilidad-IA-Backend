@@ -1,0 +1,29 @@
+{
+  "type": "FeatureCollection",
+  "name": "LINEA_23B_IDA",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1,
+        "SHAPE_Leng": 11370,
+        "Nombre_de_": "Ejecuttrans - Rumiñahui L23B",
+        "Punto_de_P": "Juan Eulogio",
+        "Punto_de_l": "Santa Martha",
+        "Sentido": "Ida",
+        "Longitud": 11.37,
+        "Itinerario": "Calle C Juan Eulogio; Avenida 1 principal Juan Eulogio; Calle J asentamiento Eloy Alfaro; Av. Patricio Romero; Av. de los Colonos; recorrido urbano hacia Santa Martha"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": []
+      }
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 from database.db import db
 from models.historial_model import HistorialRuta
 
+
 def guardar_historial(
     usuario_id,
     conversacion_id,
@@ -8,7 +9,12 @@ def guardar_historial(
     origen,
     destino,
     respuesta,
-    transbordos
+    transbordos,
+    segmentos=None,
+    tramo_geojson=None,
+    transbordos_info=None,
+    caminata_inicio=None,
+    caminata_fin=None
 ):
 
     historial = HistorialRuta(
@@ -18,7 +24,12 @@ def guardar_historial(
         origen_texto=origen,
         destino_texto=destino,
         respuesta=respuesta,
-        transbordos=transbordos
+        transbordos=transbordos,
+        segmentos=segmentos or [],
+        tramo_geojson=tramo_geojson,
+        transbordos_info=transbordos_info or [],
+        caminata_inicio=caminata_inicio,
+        caminata_fin=caminata_fin
     )
 
     db.session.add(historial)
@@ -44,7 +55,9 @@ def obtener_historial_usuario(usuario_id):
             "respuesta": h.respuesta,
             "transbordos": h.transbordos,
             "es_favorito": h.es_favorito,
-            "fecha": h.fecha.strftime("%Y-%m-%d %H:%M:%S")
+            "fecha": h.fecha.strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
         }
         for h in historial
     ]

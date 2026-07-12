@@ -1,5 +1,6 @@
 from database.db import db
 
+
 class HistorialRuta(db.Model):
 
     __tablename__ = "historial_rutas"
@@ -52,5 +53,34 @@ class HistorialRuta(db.Model):
 
     conversacion_id = db.Column(
         db.Integer,
-        db.ForeignKey("conversaciones.id")
+        db.ForeignKey("conversaciones.id"),
+        nullable=True
+    )
+
+    # Datos estructurados para reconstruir
+    # la tarjeta visual de la ruta.
+
+    segmentos = db.Column(
+        db.JSON,
+        nullable=True
+    )
+
+    tramo_geojson = db.Column(
+        db.JSON,
+        nullable=True
+    )
+
+    transbordos_info = db.Column(
+        db.JSON,
+        nullable=True
+    )
+
+    caminata_inicio = db.Column(
+        db.JSON,
+        nullable=True
+    )
+
+    caminata_fin = db.Column(
+        db.JSON,
+        nullable=True
     )

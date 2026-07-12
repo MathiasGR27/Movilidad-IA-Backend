@@ -1,0 +1,29 @@
+{
+  "type": "FeatureCollection",
+  "name": "LINEA_06B_RETORNO",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1,
+        "SHAPE_Leng": 9560,
+        "Nombre_de_": "Transmetro - Ejecuttrans L06B",
+        "Punto_de_P": "Terminal Terrestre",
+        "Punto_de_l": "Unión Cívica Popular",
+        "Sentido": "Retorno",
+        "Longitud": 9.56,
+        "Itinerario": "Terminal Terrestre; Redondel de la Virgen de la Alborada; Av. Abraham Calazacón; Av. Esmeraldas; Av. Quevedo; Calle 12 Unión Cívica Popular; Calle S/N Vivienda Sagradas Escrituras; Centro de Rehabilitación"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": []
+      }
+    }
+  ]
+}

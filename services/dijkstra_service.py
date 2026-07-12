@@ -14,16 +14,81 @@ from services.paradas_service import (
     obtener_mejores_paradas
 )
 
+
 G = construir_grafo()
 
 PENALIZACION_TRANSBORDO = 200
 
 
 def obtener_linea_parada(nombre_parada):
+    """
+    Obtiene el nombre de la línea desde el nombre
+    completo de una parada.
+
+    Ejemplo:
+    LINEA_11A_RETORNO - Parada 13
+    devuelve:
+    LINEA_11A_RETORNO
+    """
+
     return nombre_parada.split(" - ")[0]
 
 
+def crear_segmento(
+    linea,
+    nombre_inicio,
+    nombre_fin
+):
+    """
+    Construye un segmento incluyendo los nombres
+    y coordenadas de sus paradas inicial y final.
+    """
+
+    datos_inicio = obtener_datos_parada(
+        nombre_inicio
+    )
+
+    datos_fin = obtener_datos_parada(
+        nombre_fin
+    )
+
+    segmento = {
+        "linea": linea,
+        "inicio": nombre_inicio,
+        "fin": nombre_fin,
+        "inicio_coordenadas": None,
+        "fin_coordenadas": None
+    }
+
+    if datos_inicio:
+
+        segmento["inicio_coordenadas"] = {
+            "lat": float(datos_inicio["lat"]),
+            "lon": float(datos_inicio["lon"])
+        }
+
+    if datos_fin:
+
+        segmento["fin_coordenadas"] = {
+            "lat": float(datos_fin["lat"]),
+            "lon": float(datos_fin["lon"])
+        }
+
+    return segmento
+
+
 def analizar_camino(camino):
+    """
+    Divide el camino completo en segmentos por línea
+    y determina dónde se realizan los transbordos.
+    """
+
+    if not camino:
+        return {
+            "lineas": [],
+            "transbordos": 0,
+            "segmentos": []
+        }
 
     lineas = []
     segmentos = []
@@ -48,11 +113,15 @@ def analizar_camino(camino):
 
         if linea_siguiente != linea_actual:
 
-            segmentos.append({
-                "linea": linea_actual,
-                "inicio": inicio_segmento,
-                "fin": camino[i - 1]
-            })
+            segmento = crear_segmento(
+                linea=linea_actual,
+                nombre_inicio=inicio_segmento,
+                nombre_fin=camino[i - 1]
+            )
+
+            segmentos.append(
+                segmento
+            )
 
             transbordos += 1
 
@@ -60,15 +129,20 @@ def analizar_camino(camino):
             inicio_segmento = camino[i]
 
             if linea_actual not in lineas:
+
                 lineas.append(
                     linea_actual
                 )
 
-    segmentos.append({
-        "linea": linea_actual,
-        "inicio": inicio_segmento,
-        "fin": camino[-1]
-    })
+    ultimo_segmento = crear_segmento(
+        linea=linea_actual,
+        nombre_inicio=inicio_segmento,
+        nombre_fin=camino[-1]
+    )
+
+    segmentos.append(
+        ultimo_segmento
+    )
 
     return {
         "lineas": lineas,
@@ -82,7 +156,8 @@ def calcular_puntaje(
     transbordos
 ):
     """
-    Prioriza menos transbordos.
+    Prioriza recorridos con menor cantidad de
+    transbordos y menor cantidad de paradas.
     """
 
     return (
@@ -99,6 +174,11 @@ def buscar_ruta_optima(
     origen,
     destino
 ):
+    """
+    Busca las paradas más cercanas al origen y destino,
+    calcula las posibles rutas con Dijkstra y selecciona
+    la alternativa con mejor puntaje.
+    """
 
     paradas_origen = obtener_mejores_paradas(
         origen["lat"],
@@ -115,7 +195,6 @@ def buscar_ruta_optima(
     )
 
     mejor_ruta = None
-
     mejor_puntaje = float("inf")
 
     for parada_origen in paradas_origen:
@@ -157,7 +236,6 @@ def buscar_ruta_optima(
                     )
 
                     mejor_ruta = {
-
                         "parada_origen":
                             parada_origen,
 
@@ -186,7 +264,10 @@ def buscar_ruta_optima(
                             geojson
                     }
 
-            except nx.NetworkXNoPath:
+            except (
+                nx.NetworkXNoPath,
+                nx.NodeNotFound
+            ):
                 continue
 
     # ==========================================
@@ -201,7 +282,9 @@ def buscar_ruta_optima(
 
         transbordos_info = []
 
-        for i in range(len(mejor_camino) - 1):
+        for i in range(
+            len(mejor_camino) - 1
+        ):
 
             linea_a = obtener_linea_parada(
                 mejor_camino[i]
@@ -221,6 +304,9 @@ def buscar_ruta_optima(
                     mejor_camino[i + 1]
                 )
 
+                if not parada_a or not parada_b:
+                    continue
+
                 distancia = calcular_distancia(
                     parada_a["lat"],
                     parada_a["lon"],
@@ -229,46 +315,102 @@ def buscar_ruta_optima(
                 )
 
                 transbordos_info.append({
+                    "linea_origen":
+                        linea_a,
 
-                    "linea_origen": linea_a,
-                    "linea_destino": linea_b,
+                    "linea_destino":
+                        linea_b,
 
-                    "parada_salida": mejor_camino[i],
-                    "parada_llegada": mejor_camino[i + 1],
+                    "parada_salida":
+                        mejor_camino[i],
 
-                    "lat": parada_a["lat"],
-                    "lon": parada_a["lon"],
+                    "parada_llegada":
+                        mejor_camino[i + 1],
 
-                    "lat_salida": parada_a["lat"],
-                    "lon_salida": parada_a["lon"],
+                    "lat":
+                        float(parada_a["lat"]),
 
-                    "lat_llegada": parada_b["lat"],
-                    "lon_llegada": parada_b["lon"],
+                    "lon":
+                        float(parada_a["lon"]),
 
-                    "distancia": round(
-                        distancia,
-                        2
-                    )
+                    "lat_salida":
+                        float(parada_a["lat"]),
+
+                    "lon_salida":
+                        float(parada_a["lon"]),
+
+                    "lat_llegada":
+                        float(parada_b["lat"]),
+
+                    "lon_llegada":
+                        float(parada_b["lon"]),
+
+                    "distancia":
+                        round(distancia, 2)
                 })
 
                 print(
-                    f"\nCambio de {linea_a} -> {linea_b}"
+                    f"\nCambio de "
+                    f"{linea_a} -> {linea_b}"
                 )
 
                 print(
-                    f"Última parada: {mejor_camino[i]}"
+                    f"Última parada: "
+                    f"{mejor_camino[i]}"
                 )
 
                 print(
-                    f"Primera parada: {mejor_camino[i + 1]}"
+                    f"Primera parada: "
+                    f"{mejor_camino[i + 1]}"
                 )
 
                 print(
-                    f"Distancia: {round(distancia, 2)} m"
+                    f"Distancia: "
+                    f"{round(distancia, 2)} m"
                 )
 
         mejor_ruta["transbordos_info"] = (
             transbordos_info
         )
+
+        # Coordenadas necesarias para dibujar
+        # los recorridos caminando.
+
+        segmentos = mejor_ruta.get(
+            "segmentos",
+            []
+        )
+
+        primera_parada = (
+            segmentos[0].get(
+                "inicio_coordenadas"
+            )
+            if segmentos
+            else None
+        )
+
+        ultima_parada = (
+            segmentos[-1].get(
+                "fin_coordenadas"
+            )
+            if segmentos
+            else None
+        )
+
+        mejor_ruta["caminata_inicio"] = {
+            "origen": {
+                "lat": float(origen["lat"]),
+                "lon": float(origen["lon"])
+            },
+            "parada": primera_parada
+        }
+
+        mejor_ruta["caminata_fin"] = {
+            "parada": ultima_parada,
+            "destino": {
+                "lat": float(destino["lat"]),
+                "lon": float(destino["lon"])
+            }
+        }
 
     return mejor_ruta

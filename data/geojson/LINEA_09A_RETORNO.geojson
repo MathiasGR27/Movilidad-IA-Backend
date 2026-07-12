@@ -1,0 +1,29 @@
+{
+  "type": "FeatureCollection",
+  "name": "LINEA_09A_IDA",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1,
+        "SHAPE_Leng": 7740,
+        "Nombre_de_": "Transmetro L09A",
+        "Punto_de_P": "Cooperativa Miraflores",
+        "Punto_de_l": "Bombolí",
+        "Sentido": "Ida",
+        "Longitud": 7.74,
+        "Itinerario": "Calle Junín; Calle 17 de Julio; Calle Jipijapa; Calle José Martí; Calle Jorge Luis Borges; Calle Benito Juárez; Calle Rubén Darío; Calle Pablo Neruda; Calle S/N Las Islas; Av. Tsáfiqui; Av. Río Toachi; Calle Cocaniguas; Calle Guayaquil; Calle Pedro Vicente Maldonado; Av. Santa Rosa; Av. Monseñor Schumacher; Calle Venezuela Bombolí"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": []
+      }
+    }
+  ]
+}

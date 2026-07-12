@@ -9091,164 +9091,164 @@
             "lon": -79.1632428276232
         }
     ],
-    "LINEA_24B_RETONORNO": [
+    "LINEA_24B_RETORNO": [
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 1",
+            "nombre": "LINEA_24B_RETORNO - Parada 1",
             "lat": -0.24259809448242187,
             "lon": -79.16320957544006
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 2",
+            "nombre": "LINEA_24B_RETORNO - Parada 2",
             "lat": -0.23989273899530036,
             "lon": -79.16304976814536
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 3",
+            "nombre": "LINEA_24B_RETORNO - Parada 3",
             "lat": -0.23927597838755335,
             "lon": -79.16490084620236
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 4",
+            "nombre": "LINEA_24B_RETORNO - Parada 4",
             "lat": -0.239033055631559,
             "lon": -79.16758467690636
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 5",
+            "nombre": "LINEA_24B_RETORNO - Parada 5",
             "lat": -0.23941822301679455,
             "lon": -79.1697476997445
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 6",
+            "nombre": "LINEA_24B_RETORNO - Parada 6",
             "lat": -0.23920522513089143,
             "lon": -79.17243377130099
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 7",
+            "nombre": "LINEA_24B_RETORNO - Parada 7",
             "lat": -0.23903410555716284,
             "lon": -79.17512280264276
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 8",
+            "nombre": "LINEA_24B_RETORNO - Parada 8",
             "lat": -0.23892976824699919,
             "lon": -79.17781544402253
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 9",
+            "nombre": "LINEA_24B_RETORNO - Parada 9",
             "lat": -0.23929128467432334,
             "lon": -79.18042893889022
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 10",
+            "nombre": "LINEA_24B_RETORNO - Parada 10",
             "lat": -0.24052805949218015,
             "lon": -79.18282718525282
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 11",
+            "nombre": "LINEA_24B_RETORNO - Parada 11",
             "lat": -0.2425656089742116,
             "lon": -79.18371037730148
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 12",
+            "nombre": "LINEA_24B_RETORNO - Parada 12",
             "lat": -0.24527664900168988,
             "lon": -79.18380221703677
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 13",
+            "nombre": "LINEA_24B_RETORNO - Parada 13",
             "lat": -0.2479886481877366,
             "lon": -79.18382846796761
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 14",
+            "nombre": "LINEA_24B_RETORNO - Parada 14",
             "lat": -0.2506996315116128,
             "lon": -79.18389685774507
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 15",
+            "nombre": "LINEA_24B_RETORNO - Parada 15",
             "lat": -0.2534085293612182,
             "lon": -79.18403031919014
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 16",
+            "nombre": "LINEA_24B_RETORNO - Parada 16",
             "lat": -0.2557862332312351,
             "lon": -79.18275658602643
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 17",
+            "nombre": "LINEA_24B_RETORNO - Parada 17",
             "lat": -0.2581268419292936,
             "lon": -79.18139428332998
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 18",
+            "nombre": "LINEA_24B_RETORNO - Parada 18",
             "lat": -0.26045407623154604,
             "lon": -79.1800097536868
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 19",
+            "nombre": "LINEA_24B_RETORNO - Parada 19",
             "lat": -0.26279116595948604,
             "lon": -79.17864234831578
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 20",
+            "nombre": "LINEA_24B_RETORNO - Parada 20",
             "lat": -0.2634445362075036,
             "lon": -79.17685264564821
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 21",
+            "nombre": "LINEA_24B_RETORNO - Parada 21",
             "lat": -0.26258937543796196,
             "lon": -79.17429535953258
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 22",
+            "nombre": "LINEA_24B_RETORNO - Parada 22",
             "lat": -0.26156570873602764,
             "lon": -79.17180673495939
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 23",
+            "nombre": "LINEA_24B_RETORNO - Parada 23",
             "lat": -0.2605843686808249,
             "lon": -79.16932184747117
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 24",
+            "nombre": "LINEA_24B_RETORNO - Parada 24",
             "lat": -0.2599391537490895,
             "lon": -79.16670461109722
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 25",
+            "nombre": "LINEA_24B_RETORNO - Parada 25",
             "lat": -0.25931650964925124,
             "lon": -79.16408233355968
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 26",
+            "nombre": "LINEA_24B_RETORNO - Parada 26",
             "lat": -0.25851362738765427,
             "lon": -79.16152021709576
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 27",
+            "nombre": "LINEA_24B_RETORNO - Parada 27",
             "lat": -0.2560550323789938,
             "lon": -79.16119104174602
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 28",
+            "nombre": "LINEA_24B_RETORNO - Parada 28",
             "lat": -0.25334660533250086,
             "lon": -79.16134234205472
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 29",
+            "nombre": "LINEA_24B_RETORNO - Parada 29",
             "lat": -0.250758703516926,
             "lon": -79.16200137426702
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 30",
+            "nombre": "LINEA_24B_RETORNO - Parada 30",
             "lat": -0.24856799463758808,
             "lon": -79.16335265086003
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 31",
+            "nombre": "LINEA_24B_RETORNO - Parada 31",
             "lat": -0.2458715334165484,
             "lon": -79.16340955868411
         },
         {
-            "nombre": "LINEA_24B_RETONORNO - Parada 32",
+            "nombre": "LINEA_24B_RETORNO - Parada 32",
             "lat": -0.24316285212144315,
             "lon": -79.16326405646366
         }

@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, request, jsonify
 
 from services.conversacion_service import (
     crear_conversacion,
@@ -6,6 +6,9 @@ from services.conversacion_service import (
     obtener_conversacion,
     eliminar_conversacion
 )
+
+from models.user_model import User
+
 
 conversacion_bp = Blueprint(
     "conversacion_bp",
@@ -19,10 +22,30 @@ conversacion_bp = Blueprint(
 )
 def crear():
 
-    conversacion = crear_conversacion(1)
+    data = request.get_json() or {}
+
+    usuario_id = data.get("usuario_id")
+
+    if not usuario_id:
+        return jsonify({
+            "mensaje": "Debe enviar el id del usuario"
+        }), 400
+
+    usuario = User.query.get(usuario_id)
+
+    if not usuario:
+        return jsonify({
+            "mensaje": "Usuario no encontrado"
+        }), 404
+
+    conversacion = crear_conversacion(
+        usuario_id=usuario_id
+    )
 
     return jsonify({
-        "id": conversacion.id
+        "id": conversacion.id,
+        "usuario_id": conversacion.usuario_id,
+        "mensaje": "Conversación creada correctamente"
     }), 201
 
 
@@ -32,11 +55,11 @@ def crear():
 )
 def listar(usuario_id):
 
-    return jsonify(
-        obtener_conversaciones_usuario(
-            usuario_id
-        )
+    conversaciones = obtener_conversaciones_usuario(
+        usuario_id
     )
+
+    return jsonify(conversaciones), 200
 
 
 @conversacion_bp.route(
@@ -45,26 +68,19 @@ def listar(usuario_id):
 )
 def detalle(id):
 
-    return jsonify(
-        obtener_conversacion(id)
-    )
+    mensajes = obtener_conversacion(id)
+
+    return jsonify(mensajes), 200
+
 
 @conversacion_bp.route(
-
     "/conversaciones/<int:id>",
-
     methods=["DELETE"]
-
 )
-
 def borrar_conversacion(id):
 
     eliminar_conversacion(id)
 
     return jsonify({
-
-        "mensaje":
-
-        "Conversación eliminada"
-
-    }),200
+        "mensaje": "Conversación eliminada"
+    }), 200

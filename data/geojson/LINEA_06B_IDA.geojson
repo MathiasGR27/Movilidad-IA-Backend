@@ -1,0 +1,29 @@
+{
+  "type": "FeatureCollection",
+  "name": "LINEA_06B_IDA",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1,
+        "SHAPE_Leng": 9580,
+        "Nombre_de_": "Transmetro - Ejecuttrans L06B",
+        "Punto_de_P": "Unión Cívica Popular",
+        "Punto_de_l": "Terminal Terrestre",
+        "Sentido": "Ida",
+        "Longitud": 9.58,
+        "Itinerario": "Calle S/N Centro de Rehabilitación; Calle S/N Vivienda Sagradas Escrituras; Calle 12 Unión Cívica Popular; Av. Quevedo; Av. Abraham Calazacón; Redondel de la Virgen de la Alborada; Terminal Terrestre"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": []
+      }
+    }
+  ]
+}

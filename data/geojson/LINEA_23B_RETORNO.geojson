@@ -1,0 +1,29 @@
+{
+  "type": "FeatureCollection",
+  "name": "LINEA_23B_RETORNO",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1,
+        "SHAPE_Leng": 11350,
+        "Nombre_de_": "Ejecuttrans - Rumiñahui L23B",
+        "Punto_de_P": "Santa Martha",
+        "Punto_de_l": "Juan Eulogio",
+        "Sentido": "Retorno",
+        "Longitud": 11.35,
+        "Itinerario": "Calle José Joaquín Olmedo Santa Martha sector 5; Calle Benjamín Carrión; Calle Jorge C. Andrade; Calle Bellavista; Calle Víctor Emilio; Av. de los Colonos; Av. Patricio Romero; Calle J; Avenida 1 principal Juan Eulogio; Calle C Juan Eulogio"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": []
+      }
+    }
+  ]
+}

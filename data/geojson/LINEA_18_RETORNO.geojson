@@ -1,0 +1,29 @@
+{
+  "type": "FeatureCollection",
+  "name": "LINEA_18_RETORNO",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1,
+        "SHAPE_Leng": 0,
+        "Nombre_de_": "Transmetro - Ejecuttrans L18A-B",
+        "Punto_de_P": "Terminal Terrestre",
+        "Punto_de_l": "Vía Quevedo Km 8",
+        "Sentido": "Retorno",
+        "Longitud": 0,
+        "Itinerario": "Terminal Terrestre; corredor urbano; Av. Quevedo; Vía Quevedo Km 8"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": []
+      }
+    }
+  ]
+}

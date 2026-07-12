@@ -1,0 +1,29 @@
+{
+  "type": "FeatureCollection",
+  "name": "LINEA_18_IDA",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1,
+        "SHAPE_Leng": 0,
+        "Nombre_de_": "Transmetro - Ejecuttrans L18A-B",
+        "Punto_de_P": "Vía Quevedo Km 8",
+        "Punto_de_l": "Terminal Terrestre",
+        "Sentido": "Ida",
+        "Longitud": 0,
+        "Itinerario": "Vía Quevedo Km 8; Av. Quevedo; corredor urbano hacia el Terminal Terrestre"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": []
+      }
+    }
+  ]
+}
