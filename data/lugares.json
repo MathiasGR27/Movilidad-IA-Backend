@@ -190,5 +190,20 @@
     "nombre": "Río Toachi",
     "lat": -0.2550,
     "lon": -79.1400
+  },
+  "universidad espe": {
+    "nombre": "Universidad ESPE Santo Domingo",
+    "lat": -0.410512,
+    "lon": -79.310746
+  },
+  "espe santo domingo": {
+    "nombre": "Universidad ESPE Santo Domingo",
+    "lat": -0.410512,
+    "lon": -79.310746
+  },
+  "universidad de las fuerzas armadas": {
+    "nombre": "Universidad ESPE Santo Domingo",
+    "lat": -0.410512,
+    "lon": -79.310746
   }
 }

@@ -303,9 +303,6 @@ def construir_grafo():
                     parada_a["ruta"],
                     parada_b["ruta"]
                 }
-
-    
-
                 transbordos_creados += 1
 
     print(
