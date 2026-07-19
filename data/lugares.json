@@ -205,5 +205,61 @@
     "nombre": "Universidad ESPE Santo Domingo",
     "lat": -0.410512,
     "lon": -79.310746
+  },
+  "la bengala": {
+    "nombre": "La Bengala",
+    "lat": -0.2256627,
+    "lon": -79.1976896
+  },
+  "camino la bengala": {
+    "nombre": "Camino La Bengala",
+    "lat": -0.2277624,
+    "lon": -79.1977475
+  },
+  "camino hacia la bengala": {
+    "nombre": "Camino La Bengala",
+    "lat": -0.2277624,
+    "lon": -79.1977475
+  },
+  "cooperativa proletariado": {
+  "nombre": "Cooperativa Proletariado",
+  "lat": -0.283389,
+  "lon": -79.211807
+},
+
+"el proletariado": {
+  "nombre": "Cooperativa Proletariado",
+  "lat": -0.283389,
+  "lon": -79.211807
+},
+  "vía la bengala": {
+    "nombre": "Vía La Bengala",
+    "lat": -0.2294148,
+    "lon": -79.1985622
+  },
+  "av de los colonos":  {
+    "nombre": "Av. de los Colonos",
+    "lat": -0.2311884,
+    "lon": -79.1954278
+  },
+  "redondel virgen de los rosales": {
+    "nombre": "Redondel Virgen de los Rosales",
+    "lat": -0.2356611,
+    "lon": -79.1938439
+  },
+  "av abraham calazacón": {
+    "nombre": "Av. Abraham Calazacón Norte",
+    "lat": -0.2391604,
+    "lon": -79.1915234
+  },
+  "av esmeraldas": {
+    "nombre": "Av. Esmeraldas",
+    "lat": -0.2413424,
+    "lon": -79.1889508
+  },
+  "paseo shopping": {
+    "nombre": "Paseo Shopping",
+    "lat": -0.2493043,
+    "lon": -79.1634347
   }
 }

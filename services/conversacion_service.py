@@ -124,7 +124,7 @@ def obtener_conversaciones_usuario(
 
             "fecha":
                 conversacion.fecha.strftime(
-                    "%Y-%m-%d %H:%M"
+                    "%Y-%m-%d"
                 ),
 
             "titulo": texto_consulta

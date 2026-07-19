@@ -1,452 +1,151 @@
 import json
 import os
 import networkx as nx
+from math import radians, sin, cos, sqrt, atan2
 
-from math import (
-    radians,
-    sin,
-    cos,
-    sqrt,
-    atan2
-)
+DISTANCIA_MAX_TRANSBORDO = 50
 
-
-BASE_DIR = os.path.dirname(
-    os.path.dirname(
-        os.path.abspath(__file__)
-    )
-)
-
-RUTA_PARADAS = os.path.join(
-    BASE_DIR,
-    "data",
-    "paradas.json"
-)
-
-DISTANCIA_MAX_TRANSBORDO = 30
-PENALIZACION_TRANSBORDO = 5000
-
-
-# ==========================================
-# CALCULAR DISTANCIA ENTRE DOS COORDENADAS
-# ==========================================
-
-def calcular_distancia(
-    lat2,
-    lon2,
-    lat1,
-    lon1
-):
-    """
-    Calcula la distancia en metros entre
-    dos coordenadas usando Haversine.
-    """
-
-    radio_tierra = 6371000
-
-    lat1 = radians(
-        float(lat1)
-    )
-
-    lon1 = radians(
-        float(lon1)
-    )
-
-    lat2 = radians(
-        float(lat2)
-    )
-
-    lon2 = radians(
-        float(lon2)
-    )
-
-    diferencia_latitud = (
-        lat2 - lat1
-    )
-
-    diferencia_longitud = (
-        lon2 - lon1
-    )
-
-    valor_a = (
-        sin(
-            diferencia_latitud / 2
-        ) ** 2
-        +
-        cos(lat1)
-        *
-        cos(lat2)
-        *
-        sin(
-            diferencia_longitud / 2
-        ) ** 2
-    )
-
-    valor_c = 2 * atan2(
-        sqrt(valor_a),
-        sqrt(1 - valor_a)
-    )
-
-    return (
-        radio_tierra * valor_c
-    )
-
-
-# ==========================================
-# CALCULAR PESO ENTRE PARADAS
-# ==========================================
-
-def calcular_peso_ruta(
-    parada_a,
-    parada_b
-):
-    return calcular_distancia(
-        parada_a["lat"],
-        parada_a["lon"],
-        parada_b["lat"],
-        parada_b["lon"]
-    )
-
-
-# ==========================================
-# CARGAR PARADAS
-# ==========================================
 
 def cargar_paradas():
-    """
-    Carga y devuelve el archivo paradas.json.
-    """
+    ruta = os.path.join("data", "paradas.json")
 
-    with open(
-        RUTA_PARADAS,
-        encoding="utf-8"
-    ) as archivo:
-
-        return json.load(
-            archivo
-        )
+    with open(ruta, encoding="utf-8") as archivo:
+        return json.load(archivo)
 
 
-# ==========================================
-# CONSTRUIR GRAFO
-# ==========================================
+def calcular_distancia(lat1, lon1, lat2, lon2):
+    R = 6371000
+
+    lat1 = radians(float(lat1))
+    lon1 = radians(float(lon1))
+    lat2 = radians(float(lat2))
+    lon2 = radians(float(lon2))
+
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+
+    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+    return R * c
+
+
+def obtener_linea(nombre):
+    if " - " in nombre:
+        return nombre.split(" - ")[0]
+
+    return nombre
+
 
 def construir_grafo():
-
     paradas = cargar_paradas()
+    G = nx.DiGraph()
 
-    # Grafo dirigido:
-    # respeta el orden de las paradas.
-    grafo = nx.DiGraph()
+    for linea, lista_paradas in paradas.items():
+        for parada in lista_paradas:
+            nodo = parada["nombre"]
 
-    todas_las_paradas = []
-
-    # ======================================
-    # CREAR NODOS Y CONEXIONES DE RUTA
-    # ======================================
-
-    for ruta, lista_paradas in (
-        paradas.items()
-    ):
-
-        for indice, parada in enumerate(
-            lista_paradas
-        ):
-
-            nodo_actual = parada[
-                "nombre"
-            ]
-
-            grafo.add_node(
-                nodo_actual,
-                ruta=ruta,
-                lat=float(
-                    parada["lat"]
-                ),
-                lon=float(
-                    parada["lon"]
-                )
+            G.add_node(
+                nodo,
+                nombre=nodo,
+                lat=float(parada["lat"]),
+                lon=float(parada["lon"]),
+                linea=linea
             )
 
-            todas_las_paradas.append({
-                "nombre":
-                    nodo_actual,
+    crear_conexiones_lineas(G, paradas)
+    crear_transbordos(G)
 
-                "ruta":
-                    ruta,
+    print("==============================")
+    print("Grafo construido correctamente")
+    print("Nodos:", G.number_of_nodes())
+    print("Aristas:", G.number_of_edges())
+    print("==============================")
 
-                "lat":
-                    float(
-                        parada["lat"]
-                    ),
+    return G
 
-                "lon":
-                    float(
-                        parada["lon"]
-                    )
-            })
 
-            if indice > 0:
+def crear_conexiones_lineas(G, paradas):
+    for linea, lista in paradas.items():
+        for i in range(len(lista) - 1):
+            origen = lista[i]
+            destino = lista[i + 1]
 
-                parada_anterior = (
-                    lista_paradas[
-                        indice - 1
-                    ]
-                )
+            nodo_origen = origen["nombre"]
+            nodo_destino = destino["nombre"]
 
-                nodo_anterior = (
-                    parada_anterior[
-                        "nombre"
-                    ]
-                )
-
-                distancia_real = (
-                    calcular_peso_ruta(
-                        parada_anterior,
-                        parada
-                    )
-                )
-
-                # Al utilizar DiGraph, esta
-                # conexión solo funciona desde
-                # la parada anterior hacia la actual.
-                grafo.add_edge(
-                    nodo_anterior,
-                    nodo_actual,
-                    peso=distancia_real,
-                    tipo="ruta",
-                    ruta=ruta,
-                    distancia_m=round(
-                        distancia_real,
-                        2
-                    )
-                )
-
-    # ======================================
-    # CREAR TRANSBORDOS AUTOMÁTICOS
-    # ======================================
-
-    transbordos_creados = 0
-
-    for indice_a in range(
-        len(todas_las_paradas)
-    ):
-
-        parada_a = (
-            todas_las_paradas[
-                indice_a
-            ]
-        )
-
-        for indice_b in range(
-            indice_a + 1,
-            len(todas_las_paradas)
-        ):
-
-            parada_b = (
-                todas_las_paradas[
-                    indice_b
-                ]
+            distancia = calcular_distancia(
+                origen["lat"], origen["lon"],
+                destino["lat"], destino["lon"]
             )
 
-            if (
-                parada_a["ruta"]
-                ==
-                parada_b["ruta"]
-            ):
+            G.add_edge(
+                nodo_origen,
+                nodo_destino,
+                peso=distancia,
+                tipo="ruta",
+                linea=linea,
+                distancia=distancia
+            )
+
+
+def crear_transbordos(G):
+    nodos = list(G.nodes(data=True))
+    cantidad = 0
+
+    for i in range(len(nodos)):
+        nodo1, data1 = nodos[i]
+
+        for j in range(i + 1, len(nodos)):
+            nodo2, data2 = nodos[j]
+
+            linea1 = data1["linea"]
+            linea2 = data2["linea"]
+
+            if linea1 == linea2:
                 continue
 
             distancia = calcular_distancia(
-                parada_a["lat"],
-                parada_a["lon"],
-                parada_b["lat"],
-                parada_b["lon"]
+                data1["lat"], data1["lon"],
+                data2["lat"], data2["lon"]
             )
 
-            if (
-                distancia
-                <=
-                DISTANCIA_MAX_TRANSBORDO
-            ):
+            if distancia <= DISTANCIA_MAX_TRANSBORDO:
+                peso = distancia + 10000
 
-                peso_transbordo = (
-                    distancia
-                    +
-                    PENALIZACION_TRANSBORDO
-                )
-
-                # A → B
-                grafo.add_edge(
-                    parada_a["nombre"],
-                    parada_b["nombre"],
-                    peso=peso_transbordo,
+                G.add_edge(
+                    nodo1, nodo2,
+                    peso=peso,
                     tipo="transbordo",
-                    distancia_m=round(
-                        distancia,
-                        2
-                    )
+                    distancia=distancia
                 )
 
-                # B → A
-                grafo.add_edge(
-                    parada_b["nombre"],
-                    parada_a["nombre"],
-                    peso=peso_transbordo,
+                G.add_edge(
+                    nodo2, nodo1,
+                    peso=peso,
                     tipo="transbordo",
-                    distancia_m=round(
-                        distancia,
-                        2
-                    )
+                    distancia=distancia
                 )
-    
-                lineas_revisar = {
-                    parada_a["ruta"],
-                    parada_b["ruta"]
-                }
-                transbordos_creados += 1
 
-    print(
-        f"Transbordos creados: "
-        f"{transbordos_creados}"
-    )
+                cantidad += 1
 
-    print(
-        f"Nodos: "
-        f"{grafo.number_of_nodes()}"
-    )
-
-    print(
-        f"Aristas dirigidas: "
-        f"{grafo.number_of_edges()}"
-    )
-
-    return grafo
+    print("Transbordos creados:", cantidad)
 
 
-# ==========================================
-# OBTENER DATOS DE UNA PARADA
-# ==========================================
-
-def obtener_datos_parada(
-    nombre_parada
-):
-
+def obtener_datos_parada(nombre_parada):
     paradas = cargar_paradas()
 
-    for ruta, lista_paradas in (
-        paradas.items()
-    ):
-
-        for parada in lista_paradas:
-
-            if (
-                parada["nombre"]
-                ==
-                nombre_parada
-            ):
-
+    for linea, lista in paradas.items():
+        for parada in lista:
+            if parada["nombre"] == nombre_parada:
                 return {
-                    "ruta":
-                        ruta,
-
-                    "nombre":
-                        parada[
-                            "nombre"
-                        ],
-
-                    "lat":
-                        float(
-                            parada["lat"]
-                        ),
-
-                    "lon":
-                        float(
-                            parada["lon"]
-                        )
+                    "ruta": linea,
+                    "nombre": parada["nombre"],
+                    "lat": float(parada["lat"]),
+                    "lon": float(parada["lon"])
                 }
 
     return None
 
 
-# ==========================================
-# OBTENER PARADA MÁS CERCANA
-# ==========================================
-
-def obtener_parada_mas_cercana(
-    latitud,
-    longitud
-):
-    """
-    Busca la parada más cercana a una
-    coordenada determinada.
-    """
-
-    try:
-        latitud = float(
-            latitud
-        )
-
-        longitud = float(
-            longitud
-        )
-
-    except (TypeError, ValueError):
-
-        return None
-
-    paradas = cargar_paradas()
-
-    parada_mas_cercana = None
-
-    distancia_minima = float(
-        "inf"
-    )
-
-    for ruta, lista_paradas in (
-        paradas.items()
-    ):
-
-        for parada in lista_paradas:
-
-            distancia = calcular_distancia(
-                latitud,
-                longitud,
-                parada["lat"],
-                parada["lon"]
-            )
-
-            if (
-                distancia
-                <
-                distancia_minima
-            ):
-
-                distancia_minima = distancia
-
-                parada_mas_cercana = {
-                    "ruta":
-                        ruta,
-
-                    "nombre":
-                        parada[
-                            "nombre"
-                        ],
-
-                    "lat":
-                        float(
-                            parada["lat"]
-                        ),
-
-                    "lon":
-                        float(
-                            parada["lon"]
-                        ),
-
-                    "distancia_m":
-                        round(
-                            distancia,
-                            2
-                        )
-                }
-
-    return parada_mas_cercana
+grafo = construir_grafo()

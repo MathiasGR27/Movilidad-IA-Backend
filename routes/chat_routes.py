@@ -288,16 +288,15 @@ def chat():
             # Si Gemini interpreta el único
             # lugar mencionado como origen,
             # se utiliza como destino.
-            if (
-                not destino_texto
-                and
-                datos_ia.get("origen")
-            ):
-                destino_texto = (
-                    datos_ia.get(
-                        "origen"
-                    )
+            if not destino_texto:
+                posible_destino = (
+                    datos_ia.get("origen")
+                    or
+                    datos_ia.get("destino")
                 )
+
+                if posible_destino:
+                    destino_texto = posible_destino
 
             if not destino_texto:
 
@@ -526,44 +525,27 @@ def chat():
         # GUARDAR HISTORIAL
         # ==================================
 
-        historial_guardado = (
-            guardar_historial(
-                usuario_id=
-                    usuario_id,
-
-                conversacion_id=
-                    conversacion_id,
-
-                consulta=
-                    mensaje,
-
-                origen=
-                    origen_texto,
-
-                destino=
-                    destino_texto,
-
-                respuesta=
-                    mensaje_respuesta,
-
-                transbordos=
-                    transbordos,
-
-                segmentos=
-                    segmentos,
-
-                tramo_geojson=
-                    tramo_geojson,
-
-                transbordos_info=
-                    transbordos_info,
-
-                caminata_inicio=
-                    caminata_inicio,
-
-                caminata_fin=
-                    caminata_fin
-            )
+        historial_guardado = guardar_historial(
+            usuario_id=usuario_id,
+            conversacion_id=conversacion_id,
+            consulta=mensaje,
+            origen=origen_texto,
+            destino=destino_texto,
+            respuesta=mensaje_respuesta,
+            transbordos=transbordos,
+            segmentos=segmentos,
+            tramo_geojson=tramo_geojson,
+            transbordos_info=transbordos_info,
+            caminata_inicio=caminata_inicio,
+            caminata_fin=caminata_fin,
+            origen_coordenadas={
+                "lat": origen["lat"],
+                "lon": origen["lon"]
+            },
+            destino_coordenadas={
+                "lat": destino["lat"],
+                "lon": destino["lon"]
+            }
         )
 
         print(

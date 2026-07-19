@@ -119,25 +119,43 @@ def normalizar_texto(texto):
 def buscar_lugar_local(texto):
 
     if not texto:
-
         return None
 
-    texto = normalizar_texto(
-        texto
-    )
+    texto = normalizar_texto(texto)
 
-    # Primero busca en lugares fijos
+    # búsqueda exacta
     if texto in LUGARES_LOCALES:
+        return LUGARES_LOCALES[texto]
 
-        return LUGARES_LOCALES[
-            texto
-        ]
 
-    # Luego busca en intersecciones
+    # búsqueda parcial
+    for clave, lugar in LUGARES_LOCALES.items():
+
+        clave_normalizada = normalizar_texto(
+            clave
+        )
+
+        nombre_normalizado = normalizar_texto(
+            lugar["nombre"]
+        )
+
+
+        if (
+            texto in clave_normalizada
+            or
+            clave_normalizada in texto
+            or
+            texto in nombre_normalizado.lower()
+            or
+            nombre_normalizado.lower() in texto
+        ):
+
+            return lugar
+
+
+    # intersecciones
     if texto in INTERSECCIONES:
+        return INTERSECCIONES[texto]
 
-        return INTERSECCIONES[
-            texto
-        ]
 
     return None

@@ -1,6 +1,6 @@
 {
   "type": "FeatureCollection",
-  "name": "LINEA_21_IDA",
+  "name": "LINEA_21_RETORNO",
   "crs": {
     "type": "name",
     "properties": {
@@ -14,15 +14,172 @@
         "OBJECTID": 1,
         "SHAPE_Leng": 10850,
         "Nombre_de_": "Rumiñahui L21",
-        "Punto_de_P": "La Bengala",
-        "Punto_de_l": "Paseo Shopping",
-        "Sentido": "Ida",
+        "Punto_de_P": "Paseo Shopping",
+        "Punto_de_l": "La Bengala",
+        "Sentido": "Retorno",
         "Longitud": 10.85,
-        "Itinerario": "La Bengala; Vía La Bengala; Av. de los Colonos; Redondel Sueño de Bolívar; Av. Abraham Calazacón; Av. Esmeraldas; Av. Quito; Paseo Shopping"
+        "Itinerario": "Calle Guayaquil; Av. Esmeraldas; Calle Río Pastaza; Calle Río Tumbamba; Calle Río Machángara; Av. Monseñor Schumacher; Av. Abraham Calazacón; Redondel Virgen de los Rosales; Av. de los Colonos; Vía La Bengala; Camino La Bengala; Calle 8 (Coop. San Jorge); Calle C (Coop. Juan Eulogio)"
       },
       "geometry": {
         "type": "LineString",
-        "coordinates": []
+        "coordinates": [
+          [
+            -79.1631025,
+            -0.2494504
+          ],
+          [
+            -79.1659523,
+            -0.25196
+          ],
+          [
+            -79.1662055,
+            -0.2520851
+          ],
+          [
+            -79.1664706,
+            -0.2521381
+          ],
+          [
+            -79.167169,
+            -0.2521269
+          ],
+          [
+            -79.1698637,
+            -0.251987
+          ],
+          [
+            -79.1715799,
+            -0.2519383
+          ],
+          [
+            -79.1720784,
+            -0.2520664
+          ],
+          [
+            -79.173461,
+            -0.2519201
+          ],
+          [
+            -79.1755209,
+            -0.2505738
+          ],
+          [
+            -79.1742055,
+            -0.2473529
+          ],
+          [
+            -79.1732244,
+            -0.2451262
+          ],
+          [
+            -79.1779087,
+            -0.2417358
+          ],
+          [
+            -79.178603,
+            -0.2430859
+          ],
+          [
+            -79.1785894,
+            -0.2452708
+          ],
+          [
+            -79.1806182,
+            -0.2450631
+          ],
+          [
+            -79.1808306,
+            -0.2415971
+          ],
+          [
+            -79.1816333,
+            -0.2399507
+          ],
+          [
+            -79.1835461,
+            -0.24097
+          ],
+          [
+            -79.1837339,
+            -0.2409904
+          ],
+          [
+            -79.1843242,
+            -0.2397654
+          ],
+          [
+            -79.1838543,
+            -0.2389536
+          ],
+          [
+            -79.185328,
+            -0.2396114
+          ],
+          [
+            -79.1889507,
+            -0.2413231
+          ],
+          [
+            -79.1899711,
+            -0.2407543
+          ],
+          [
+            -79.1908942,
+            -0.2400278
+          ],
+          [
+            -79.1927236,
+            -0.2373152
+          ],
+          [
+            -79.1933338,
+            -0.2362487
+          ],
+          [
+            -79.1938272,
+            -0.2356755
+          ],
+          [
+            -79.1938411,
+            -0.2347672
+          ],
+          [
+            -79.1944501,
+            -0.2330494
+          ],
+          [
+            -79.1948066,
+            -0.2321685
+          ],
+          [
+            -79.1950586,
+            -0.231652
+          ],
+          [
+            -79.195406,
+            -0.2312007
+          ],
+          [
+            -79.1963937,
+            -0.2304717
+          ],
+          [
+            -79.1985454,
+            -0.2294342
+          ],
+          [
+            -79.1977472,
+            -0.2277929
+          ],
+          [
+            -79.1977994,
+            -0.2267172
+          ],
+          [
+            -79.1977272,
+            -0.2256854
+          ]
+        ]
       }
     }
   ]

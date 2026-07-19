@@ -267,34 +267,94 @@ def obtener_mejores_paradas(
 
     resultado = []
 
+
+    # Guardamos la mejor parada
+    # encontrada por cada línea
+
+    mejores_por_ruta = {}
+
+
+
     for ruta, paradas in PARADAS.items():
+
+
+        mejor = None
+
+        menor_distancia = float(
+            "inf"
+        )
+
 
         for parada in paradas:
 
+
             distancia = calcular_distancia(
+
                 lat,
+
                 lon,
+
                 parada["lat"],
+
                 parada["lon"]
+
             )
 
-            if distancia > distancia_maxima:
-                continue
 
-            resultado.append({
-                "ruta": ruta,
-                "nombre": parada["nombre"],
-                "lat": parada["lat"],
-                "lon": parada["lon"],
-                "distancia_m": round(
-                    distancia,
-                    2
-                )
-            })
+            if distancia < menor_distancia:
+
+
+                menor_distancia = distancia
+
+
+                mejor = {
+
+                    "ruta":
+                        ruta,
+
+
+                    "nombre":
+                        parada["nombre"],
+
+
+                    "lat":
+                        parada["lat"],
+
+
+                    "lon":
+                        parada["lon"],
+
+
+                    "distancia_m":
+                        round(
+                            distancia,
+                            2
+                        )
+
+                }
+
+
+
+        if mejor and menor_distancia <= distancia_maxima:
+
+
+            mejores_por_ruta[ruta] = mejor
+
+
+
+
+
+    resultado = list(
+        mejores_por_ruta.values()
+    )
+
+
 
     resultado.sort(
-        key=lambda x: x["distancia_m"]
+        key=lambda x:
+        x["distancia_m"]
     )
+
 
     return resultado[:limite]
 

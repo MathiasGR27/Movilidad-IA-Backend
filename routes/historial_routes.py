@@ -75,20 +75,58 @@ def obtener_detalle(id):
             "error": "No encontrada"
         }), 404
 
+
     return jsonify({
 
         "id": ruta.id,
 
-        "consulta": ruta.consulta,
 
-        "respuesta": ruta.respuesta,
+        # Texto original
+        "consulta":
+            ruta.consulta,
 
-        "fecha": str(ruta.fecha),
 
-        "origen": ruta.origen_texto,
+        "respuesta":
+            ruta.respuesta,
 
-        "destino": ruta.destino_texto,
 
-        "transbordos": ruta.transbordos
+        "fecha":
+            str(ruta.fecha),
 
-    }), 200
+
+        "origen":
+            ruta.origen_texto,
+
+
+        "destino":
+            ruta.destino_texto,
+
+
+        "transbordos":
+            ruta.transbordos,
+
+
+        # =========================
+        # DATOS PARA RECONSTRUIR MAPA
+        # =========================
+
+        "segmentos":
+            ruta.segmentos,
+
+
+        "tramo_geojson":
+            ruta.tramo_geojson,
+
+
+        "transbordos_info":
+            ruta.transbordos_info,
+
+
+        "caminata_inicio":
+            ruta.caminata_inicio,
+
+
+        "caminata_fin":
+            ruta.caminata_fin
+
+    }), 200 

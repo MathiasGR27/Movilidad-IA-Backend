@@ -23,40 +23,80 @@ def limpiar_texto(texto):
         "los",
         "las"
     ]
-
     for palabra in reemplazos:
         texto = texto.replace(palabra, "")
-
     return texto.strip()
 
 
 def extraer_local(mensaje):
     mensaje_limpio = mensaje.lower().strip()
-
     patrones = [
-        r"desde\s+(.*?)\s+hasta\s+(.*)",
-        r"desde\s+(.*?)\s+hacia\s+(.*)",
-        r"desde\s+(.*?)\s+a\s+la\s+(.*)",
-        r"desde\s+(.*?)\s+a\s+el\s+(.*)",
-        r"desde\s+(.*?)\s+al\s+(.*)",
-        r"desde\s+(.*?)\s+a\s+(.*)",
-        r"del\s+(.*?)\s+al\s+(.*)",
-        r"de\s+(.*?)\s+a\s+(.*)",
-        r"de\s+(.*?)\s+hasta\s+(.*)"
+        # desde X hasta Y
+        (
+            r"desde\s+(.*?)\s+hasta\s+(.*)",
+            "origen_destino"
+        ),
+        # desde X hacia Y
+        (
+            r"desde\s+(.*?)\s+hacia\s+(.*)",
+            "origen_destino"
+        ),
+        # desde X a Y
+        (
+            r"desde\s+(.*?)\s+a\s+(.*)",
+            "origen_destino"
+        ),
+        # quiero ir hasta Y
+        (
+            r"quiero\s+ir\s+hasta\s+(.*)",
+            "solo_destino"
+        ),
+        # quiero ir al Y
+        (
+            r"quiero\s+ir\s+al\s+(.*)",
+            "solo_destino"
+        ),
+        # quiero ir a la Y
+        (
+            r"quiero\s+ir\s+a\s+la\s+(.*)",
+            "solo_destino"
+        ),
+        # quiero ir a Y
+        (
+            r"quiero\s+ir\s+a\s+(.*)",
+            "solo_destino"
+        ),
+        # hasta Y
+        (
+            r"hasta\s+(.*)",
+            "solo_destino"
+        ),
+        # hacia Y
+        (
+            r"hacia\s+(.*)",
+            "solo_destino"
+        )
     ]
-
-    for patron in patrones:
-        coincidencia = re.search(patron, mensaje_limpio)
-
+    for patron, tipo in patrones:
+        coincidencia = re.search(
+            patron,
+            mensaje_limpio
+        )
         if coincidencia:
-            origen = coincidencia.group(1).strip()
-            destino = coincidencia.group(2).strip()
-
-            return {
-                "origen": origen,
-                "destino": destino
-            }
-
+            if tipo == "origen_destino":
+                return {
+                    "origen":
+                        coincidencia.group(1).strip(),
+                    "destino":
+                        coincidencia.group(2).strip()
+                }
+            if tipo == "solo_destino":
+                return {
+                    "origen":
+                        None,
+                    "destino":
+                        coincidencia.group(1).strip()
+                }
     return None
 
 
