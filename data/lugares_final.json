@@ -2,8 +2,9 @@
     "av quevedo km8": {
         "nombre": "Av Quevedo Km8",
         "alias": [
-            "av quevedo km8",
-            "quevedo km8"
+            "km8",
+            "quevedo km8",
+            "av quevedo km8"
         ],
         "lat": -0.344140876060282,
         "lon": -79.22678504926739
@@ -11,16 +12,17 @@
     "av clemencia de mora (redondel de la alborada)": {
         "nombre": "Av Clemencia De Mora (Redondel De La Alborada)",
         "alias": [
-            "av clemencia de mora",
-            "clemencia de mora (redondel de la alborada)",
-            "la alborada"
+            "av clemencia de mora (redondel de la alborada)",
+            "alborada)",
+            "clemencia de mora (redondel de la alborada)"
         ],
         "lat": -0.238682595022708,
         "lon": -79.17561008383161
     },
-    "rrrio verde": {
-        "nombre": "Rrio Verde",
+    "rio verde": {
+        "nombre": "Rio Verde",
         "alias": [
+            "verde",
             "rio verde"
         ],
         "lat": -0.277196561220671,
@@ -37,6 +39,7 @@
     "u catolica": {
         "nombre": "U Catolica",
         "alias": [
+            "catolica",
             "u catolica"
         ],
         "lat": -0.254313205134208,
@@ -45,6 +48,7 @@
     "el paraiso": {
         "nombre": "El Paraiso",
         "alias": [
+            "paraiso",
             "el paraiso"
         ],
         "lat": -0.255007104351614,
@@ -53,32 +57,44 @@
     "libre ecuador": {
         "nombre": "Libre Ecuador",
         "alias": [
+            "ecuador",
             "libre ecuador"
         ],
         "lat": -0.241275142040047,
         "lon": -79.20063256269154
     },
-    "coop de diciembre": {
-        "nombre": "Coop De Diciembre",
+    "coop 9 de diciembre": {
+        "nombre": "Coop 9 De Diciembre",
         "alias": [
-            "coop de diciembre",
-            "de diciembre"
+            "coop 9 de diciembre",
+            "9 de diciembre",
+            "diciembre"
         ],
         "lat": -0.23499111598852,
         "lon": -79.15746379700087
     },
-    "Sueño de bolivar": {
-        "nombre": "Sueño De Bolivar",
+    "plan de vivienda sueno de bolivar": {
+        "nombre": "Plan De Vivienda Sueno De Bolivar",
         "alias": [
-            "sueño de bolivar"
+            "plan de vivienda sueno de bolivar",
+            "bolivar"
         ],
         "lat": -0.221830212253403,
         "lon": -79.15541058458423
     },
+    "plan de vivienda sueño de bolivar": {
+        "nombre": "Plan De Vivienda Sueño De Bolivar",
+        "alias": [
+            "bolivar",
+            "plan de vivienda sueño de bolivar"
+        ],
+        "lat": -0.221808979525057,
+        "lon": -79.15544086416558
+    },
     "camino al futuro": {
         "nombre": "Camino Al Futuro",
         "alias": [
-            "al futuro",
+            "futuro",
             "camino al futuro"
         ],
         "lat": -0.265924997544591,
@@ -87,6 +103,7 @@
     "el eden": {
         "nombre": "El Eden",
         "alias": [
+            "eden",
             "el eden"
         ],
         "lat": -0.231869432303716,
@@ -95,16 +112,17 @@
     "luz del dia": {
         "nombre": "Luz Del Dia",
         "alias": [
-            "del dia",
+            "dia",
             "luz del dia"
         ],
         "lat": -0.25584551503287,
         "lon": -79.2172637657841
     },
-    "brisas": {
-        "nombre": "Brisas",
+    "brisas 1": {
+        "nombre": "Brisas 1",
         "alias": [
-            "brisas"
+            "1",
+            "brisas 1"
         ],
         "lat": -0.22160522294789,
         "lon": -79.15500958210373
@@ -112,8 +130,8 @@
     "brasilia del toachi": {
         "nombre": "Brasilia Del Toachi",
         "alias": [
-            "brasilia del toachi",
-            "del toachi"
+            "toachi",
+            "brasilia del toachi"
         ],
         "lat": -0.235138404559594,
         "lon": -79.13140671649293
@@ -121,8 +139,8 @@
     "redondel virgen de la alborada": {
         "nombre": "Redondel Virgen De La Alborada",
         "alias": [
-            "redondel virgen de la alborada",
-            "la alborada"
+            "alborada",
+            "redondel virgen de la alborada"
         ],
         "lat": -0.302973301204255,
         "lon": -79.18709924968671
@@ -130,8 +148,8 @@
     "centro de rehabilitacion": {
         "nombre": "Centro De Rehabilitacion",
         "alias": [
-            "centro de rehabilitacion",
-            "de rehabilitacion"
+            "rehabilitacion",
+            "centro de rehabilitacion"
         ],
         "lat": -0.23926664088925,
         "lon": -79.17151487737422
@@ -139,8 +157,8 @@
     "av coronel edmundo andrade (coop el proletariado)": {
         "nombre": "Av Coronel Edmundo Andrade (Coop El Proletariado)",
         "alias": [
+            "proletariado)",
             "coronel edmundo andrade (coop el proletariado)",
-            "el proletariado",
             "av coronel edmundo andrade (coop el proletariado)"
         ],
         "lat": -0.284894274170116,
@@ -150,8 +168,8 @@
         "nombre": "Av De Las Delicias (Hospital General)",
         "alias": [
             "av de las delicias (hospital general)",
-            "(hospital general)",
-            "de las delicias (hospital general)"
+            "de las delicias (hospital general)",
+            "general)"
         ],
         "lat": -0.246756596570083,
         "lon": -79.16061571293852
@@ -159,15 +177,17 @@
     "los girasoles": {
         "nombre": "Los Girasoles",
         "alias": [
-            "los girasoles"
+            "los girasoles",
+            "girasoles"
         ],
-        "lat": -0.246778009071011,
-        "lon": -79.16065165394143
+        "lat": -0.288439,
+        "lon": -79.207596
     },
+
     "hospital gustavo dominguez": {
         "nombre": "Hospital Gustavo Dominguez",
         "alias": [
-            "gustavo dominguez",
+            "dominguez",
             "hospital gustavo dominguez"
         ],
         "lat": -0.298414033474767,
@@ -176,7 +196,7 @@
     "limite entre la cadena y ciudad verde": {
         "nombre": "Limite Entre La Cadena Y Ciudad Verde",
         "alias": [
-            "ciudad verde",
+            "verde",
             "limite entre la cadena y ciudad verde"
         ],
         "lat": -0.28547337182093,
@@ -185,8 +205,9 @@
     "av los colonos": {
         "nombre": "Av Los Colonos",
         "alias": [
-            "av los colonos",
-            "los colonos"
+            "los colonos",
+            "colonos",
+            "av los colonos"
         ],
         "lat": -0.234587124289438,
         "lon": -79.17079771239324
@@ -194,8 +215,9 @@
     "calle ramiro gallo": {
         "nombre": "Calle Ramiro Gallo",
         "alias": [
-            "ramiro gallo",
-            "calle ramiro gallo"
+            "gallo",
+            "calle ramiro gallo",
+            "ramiro gallo"
         ],
         "lat": -0.27096056384142,
         "lon": -79.14440539905357
@@ -203,8 +225,8 @@
     "redondel de la virgen de la alborada": {
         "nombre": "Redondel De La Virgen De La Alborada",
         "alias": [
-            "redondel de la virgen de la alborada",
-            "la alborada"
+            "alborada",
+            "redondel de la virgen de la alborada"
         ],
         "lat": -0.238985213095109,
         "lon": -79.17184641420683
@@ -212,9 +234,9 @@
     "calle e (los naranjos)": {
         "nombre": "Calle E (Los Naranjos)",
         "alias": [
-            "los naranjos",
-            "calle e (los naranjos)",
-            "los naranjos"
+            "naranjos)",
+            "e (los naranjos)",
+            "calle e (los naranjos)"
         ],
         "lat": -0.26646412291541,
         "lon": -79.14143106410204
@@ -222,8 +244,8 @@
     "redondel de la alborada": {
         "nombre": "Redondel De La Alborada",
         "alias": [
-            "redondel de la alborada",
-            "la alborada"
+            "alborada",
+            "redondel de la alborada"
         ],
         "lat": -0.239373651005827,
         "lon": -79.17018199224316
@@ -231,9 +253,9 @@
     "calle dolores veintimilla (la castellana)": {
         "nombre": "Calle Dolores Veintimilla (La Castellana)",
         "alias": [
-            "(la castellana)",
-            "dolores veintimilla (la castellana)",
-            "calle dolores veintimilla (la castellana)"
+            "castellana)",
+            "calle dolores veintimilla (la castellana)",
+            "dolores veintimilla (la castellana)"
         ],
         "lat": -0.249343785081756,
         "lon": -79.14362632936472
@@ -242,7 +264,7 @@
         "nombre": "Av Las Delicias (Hospital General)",
         "alias": [
             "av las delicias (hospital general)",
-            "(hospital general)",
+            "general)",
             "las delicias (hospital general)"
         ],
         "lat": -0.284894393810287,
@@ -251,9 +273,9 @@
     "calle g (coop maria del rosario)": {
         "nombre": "Calle G (Coop Maria Del Rosario)",
         "alias": [
-            "Coop Maria Del Rosario",
+            "g (coop maria del rosario)",
             "calle g (coop maria del rosario)",
-            "g (coop maria del rosario)"
+            "rosario)"
         ],
         "lat": -0.269956972482687,
         "lon": -79.20598306834123
@@ -261,33 +283,46 @@
     "calle camino al poste (6 de enero)": {
         "nombre": "Calle Camino Al Poste (6 De Enero)",
         "alias": [
-            "camino al poste (6 de enero)",
-            "el poste",
-            "calle camino al poste (6 de enero)"
+            "enero)",
+            "calle camino al poste (6 de enero)",
+            "camino al poste (6 de enero)"
         ],
         "lat": -0.259736555515514,
         "lon": -79.22461498062775
     },
-    "km via quevedo": {
-        "nombre": "Km 6 Via Quevedo",
+    "km 8 via quevedo": {
+        "nombre": "Km 8 Vía Quevedo",
         "alias": [
-            "km 6 via quevedo",
-            "via quevedo km 6"
+            "km 8 via quevedo",
+            "quevedo"
         ],
         "lat": -0.298063,
         "lon": -79.2174326
     },
-    "km via a la reforma - la comuna": {
-        "nombre": "Km Via A La Reforma - La Comuna",
+    "av. clemencia de mora (redondel de la alborada)": {
+        "nombre": "Av. Clemencia De Mora (Redondel De La Alborada)",
         "alias": [
-            "km via a la reforma - la comuna",
-            "la comuna tsachila"
+            "av. clemencia de mora (redondel de la alborada)",
+            "alborada)"
         ],
-        "lat": -0.298063,
-        "lon": -79.2174326
+        "lat": -0.2383908,
+        "lon": -79.1756567
+    },
+    "km 7 via quevedo": {
+        "nombre": "Km 7 Vía Quevedo",
+        "alias": [
+            "km 7",
+            "km7",
+            "kilometro 7",
+            "via quevedo",
+            "km 7 quevedo",
+            "luna roja"
+            ],
+        "lat": -0.301628, 
+        "lon": -79.220174
     },
     "apagos": {
-        "nombre": "Apagos",
+        "nombre": "Ápagos",
         "alias": [
             "apagos"
         ],
@@ -297,30 +332,32 @@
     "las oranzonas": {
         "nombre": "Las Oranzonas",
         "alias": [
+            "oranzonas",
             "las oranzonas"
         ],
         "lat": -0.298063,
         "lon": -79.2174326
     },
     "los tsachilas": {
-        "nombre": "Los Tsachilas",
+        "nombre": "Los Tsáchilas",
         "alias": [
+            "tsachilas",
             "los tsachilas"
         ],
         "lat": -0.298063,
         "lon": -79.2174326
     },
-    "redondel terminal terrestre": {
-        "nombre": "Redondel Terminal Terrestre",
+    "terminal terrestre": {
+        "nombre": "Terminal Terrestre",
         "alias": [
             "terminal terrestre",
-            "redondel terminal terrestre"
+            "terminal"
         ],
-        "lat": -0.298063,
-        "lon": -79.2174326
+        "lat":-0.239148,
+        "lon":-79.170251
     },
     "calazacon": {
-        "nombre": "Calazacon",
+        "nombre": "Calazacón",
         "alias": [
             "calazacon"
         ],
@@ -331,35 +368,48 @@
         "nombre": "De Mora Redondel De La Alborada",
         "alias": [
             "de mora redondel de la alborada",
-            "la alborada"
+            "alborada"
         ],
         "lat": -0.298063,
         "lon": -79.2174326
     },
-    "24 de mayo": {
+    "de mayo": {
         "nombre": "De Mayo",
         "alias": [
+            "mayo",
             "de mayo"
         ],
         "lat": -0.2383799,
         "lon": -79.1756925
     },
-    "/n km - gasolinera": {
-        "nombre": "/N Km - Gasolinera",
+    "/n km 8 - gasolinera": {
+        "nombre": "/N Km 8 - Gasolinera",
         "alias": [
-            "/n km - gasolinera",
-            "- gasolinera"
+            "/n km 8 - gasolinera",
+            "gasolinera"
         ],
         "lat": -0.2383799,
         "lon": -79.1756925
     },
-    "cc shopping": {
-        "nombre": "Cc Shopping",
+    "shopping": {
+        "nombre": "Paseo Shopping",
         "alias": [
-            "cc shopping"
+            "shopping",
+            "shopping de la quito",
+            "paseo shopping"
         ],
         "lat": -0.249245515318525,
         "lon": -79.16300454735978
+    },
+    "bomboli shopping": {
+        "nombre": "Bombolí Shopping",
+        "alias": [
+            "bomboli shopping",
+            "shopping de la chone",
+            "mall bomboli"
+        ],
+        "lat": -0.254512,
+        "lon": -79.191942
     },
     "duragas": {
         "nombre": "Duragas",
@@ -372,6 +422,7 @@
     "ciudad verde": {
         "nombre": "Ciudad Verde",
         "alias": [
+            "verde",
             "ciudad verde"
         ],
         "lat": -0.290485744389808,
@@ -380,15 +431,17 @@
     "la bengala": {
         "nombre": "La Bengala",
         "alias": [
-            "la bengala"
+            "la bengala",
+            "bengala"
         ],
-        "lat": -0.2256627,
-        "lon": -79.1976896
+        "lat": -0.229402,
+        "lon": -79.198529
     },
     "paseo shopping": {
         "nombre": "Paseo Shopping",
         "alias": [
-            "paseo shopping"
+            "paseo shopping",
+            "shopping"
         ],
         "lat": -0.2494242,
         "lon": -79.1631282
@@ -396,8 +449,9 @@
     "coop juan eulogio": {
         "nombre": "Coop Juan Eulogio",
         "alias": [
+            "coop juan eulogio",
             "juan eulogio",
-            "coop juan eulogio"
+            "eulogio"
         ],
         "lat": -0.2256627,
         "lon": -79.1976896
@@ -406,7 +460,8 @@
         "nombre": "Coop San Jorge",
         "alias": [
             "coop san jorge",
-            "san jorge"
+            "san jorge",
+            "jorge"
         ],
         "lat": -0.2256627,
         "lon": -79.1976896
@@ -415,16 +470,16 @@
         "nombre": "Camino La Bengala",
         "alias": [
             "camino la bengala",
-            "la bengala"
+            "bengala"
         ],
         "lat": -0.2256627,
         "lon": -79.1976896
     },
     "via la bengala": {
-        "nombre": "Via La Bengala",
+        "nombre": "Vía La Bengala",
         "alias": [
             "via la bengala",
-            "la bengala"
+            "bengala"
         ],
         "lat": -0.2256627,
         "lon": -79.1976896
@@ -432,7 +487,8 @@
     "los colonos": {
         "nombre": "Los Colonos",
         "alias": [
-            "los colonos"
+            "los colonos",
+            "colonos"
         ],
         "lat": -0.2256627,
         "lon": -79.1976896
@@ -440,56 +496,62 @@
     "redondel de la virgen de los rosales": {
         "nombre": "Redondel De La Virgen De Los Rosales",
         "alias": [
-            "los rosales",
+            "rosales",
             "redondel de la virgen de los rosales"
         ],
         "lat": -0.2256627,
         "lon": -79.1976896
     },
-    "nor schumacher": {
-        "nombre": "Nor Schumacher",
+    "ñor schumacher": {
+        "nombre": "Ñor Schumacher",
         "alias": [
-            "nor schumacher"
+            "schumacher",
+            "ñor schumacher"
         ],
         "lat": -0.2256627,
         "lon": -79.1976896
     },
-    "rio machangara": {
-        "nombre": "Rio Machangara",
+    "io machangara": {
+        "nombre": "Ío Machángara",
         "alias": [
-            "rio machangara"
+            "io machangara",
+            "machangara"
         ],
         "lat": -0.2256627,
         "lon": -79.1976896
     },
-    "rio tumbamba": {
-        "nombre": "Rio Tumbamba",
+    "io tumbamba": {
+        "nombre": "Ío Tumbamba",
         "alias": [
-            "rio tumbamba"
+            "io tumbamba",
+            "tumbamba"
         ],
         "lat": -0.2256627,
         "lon": -79.1976896
     },
-    "rio pastaza": {
-        "nombre": "Rio Pastaza",
+    "io pastaza": {
+        "nombre": "Ío Pastaza",
         "alias": [
-            "rio pastaza"
+            "pastaza",
+            "io pastaza"
         ],
         "lat": -0.2256627,
         "lon": -79.1976896
     },
-    "rio tiputini": {
-        "nombre": "Rio Tiputini",
+    "io tiputini": {
+        "nombre": "Ío Tiputini",
         "alias": [
-            "rio tiputini"
+            "tiputini",
+            "io tiputini"
         ],
         "lat": -0.2256627,
         "lon": -79.1976896
     },
-    "rio baba": {
-        "nombre": "Rio Baba",
+    "io baba": {
+        "nombre": "Ío Baba",
         "alias": [
-            "rio baba"
+            "baba",
+            "io baba"
         ],
         "lat": -0.2256627,
         "lon": -79.1976896
@@ -497,7 +559,7 @@
     "redondel virgen de los rosales": {
         "nombre": "Redondel Virgen De Los Rosales",
         "alias": [
-            "los rosales",
+            "rosales",
             "redondel virgen de los rosales"
         ],
         "lat": -0.2494504,
@@ -506,19 +568,29 @@
     "abraham calazacon": {
         "nombre": "Abraham Calazacon",
         "alias": [
+            "calazacon",
             "abraham calazacon"
         ],
         "lat": -0.2492599,
         "lon": -79.183846
     },
     "av tsachila": {
-        "nombre": "Av Tsachila",
+        "nombre": "Av Tsáchila",
         "alias": [
             "av tsachila",
             "tsachila"
         ],
         "lat": -0.2492249,
         "lon": -79.1838463
+    },
+    "av. tsachila": {
+        "nombre": "Av. Tsáchila",
+        "alias": [
+            "av. tsachila",
+            "tsachila"
+        ],
+        "lat": -0.249246,
+        "lon": -79.183846
     },
     "chorrera": {
         "nombre": "Chorrera",
@@ -529,13 +601,23 @@
         "lat": -0.258478,
         "lon": -79.181598
     },
-    "avportal del lago": {
-        "nombre": "Avportal Del Lago",
+    "av.portal del lago": {
+        "nombre": "Av.Portal Del Lago",
         "alias": [
-            "del lago",
-            "avportal del lago"
+            "av.portal del lago",
+            "lago"
         ],
         "lat": -0.235966154496277,
         "lon": -79.20678914088674
+    },
+    "Porton del concejo Provincial": {
+        "nombre": "Porton del Concejo Provincial",
+        "alias": [
+            "porton del concejo provincial",
+            "porton",
+            "el porton"
+        ],
+        "lat": -0.238619,
+        "lon": -79.194317
     }
 }

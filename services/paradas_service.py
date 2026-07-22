@@ -1,415 +1,198 @@
 import json
 import os
-from math import radians, sin, cos, sqrt, atan2
+from math import atan2, cos, radians, sin, sqrt
 
-BASE_DIR = os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__))
-)
+# =====================================================
+# CONFIGURACIÓN
+# =====================================================
 
-RUTA_PARADAS = os.path.join(
-    BASE_DIR,
-    "data",
-    "paradas.json"
-)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+RUTA_PARADAS = os.path.join(BASE_DIR, "data", "paradas.json")
 
-with open(RUTA_PARADAS, encoding="utf-8") as f:
-    PARADAS = json.load(f)
+with open(RUTA_PARADAS, encoding="utf-8") as archivo:
+    PARADAS = json.load(archivo)
 
+
+# =====================================================
+# DISTANCIA HAVERSINE
+# =====================================================
 
 def calcular_distancia(lat1, lon1, lat2, lon2):
-    """
-    Distancia entre dos coordenadas en metros
-    usando fórmula de Haversine
-    """
-
     R = 6371000
 
-    lat1 = radians(lat1)
-    lon1 = radians(lon1)
-
-    lat2 = radians(lat2)
-    lon2 = radians(lon2)
+    lat1 = radians(float(lat1))
+    lon1 = radians(float(lon1))
+    lat2 = radians(float(lat2))
+    lon2 = radians(float(lon2))
 
     dlat = lat2 - lat1
     dlon = lon2 - lon1
 
     a = (
         sin(dlat / 2) ** 2
-        + cos(lat1)
-        * cos(lat2)
-        * sin(dlon / 2) ** 2
+        + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
     )
 
-    c = 2 * atan2(
-        sqrt(a),
-        sqrt(1 - a)
-    )
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
     return R * c
 
 
-def obtener_paradas_ruta(nombre_ruta):
-    """
-    Devuelve todas las paradas de una ruta
-    """
+# =====================================================
+# OBTENER PARADAS DE UNA RUTA
+# =====================================================
 
+def obtener_paradas_ruta(nombre_ruta):
     return PARADAS.get(nombre_ruta, [])
 
 
+# =====================================================
+# PARADA MÁS CERCANA
+# =====================================================
+
 def buscar_parada_mas_cercana(lat, lon):
-    """
-    Busca la parada más cercana
-    entre todas las rutas
-    """
+    mejor = None
+    menor = float("inf")
 
-    mejor_parada = None
-    mejor_distancia = float("inf")
-
-    for ruta, paradas in PARADAS.items():
-
-        for parada in paradas:
-
+    for ruta, lista in PARADAS.items():
+        for parada in lista:
             distancia = calcular_distancia(
-                lat,
-                lon,
-                parada["lat"],
-                parada["lon"]
+                lat, lon, parada["lat"], parada["lon"]
             )
 
-            if distancia < mejor_distancia:
-
-                mejor_distancia = distancia
-
-                mejor_parada = {
+            if distancia < menor:
+                menor = distancia
+                mejor = {
                     "ruta": ruta,
                     "nombre": parada["nombre"],
-                    "lat": parada["lat"],
-                    "lon": parada["lon"],
-                    "distancia_m": round(
-                        distancia,
-                        2
-                    )
+                    "lat": float(parada["lat"]),
+                    "lon": float(parada["lon"]),
+                    "distancia_m": round(distancia, 2),
                 }
 
-    return mejor_parada
+    return mejor
 
 
-def buscar_paradas_cercanas(
-    lat,
-    lon,
-    radio_metros=500
-):
-    """
-    Devuelve todas las paradas
-    dentro de un radio determinado
-    """
+# =====================================================
+# TODAS LAS PARADAS CERCANAS
+# =====================================================
 
+def buscar_paradas_cercanas(lat, lon, radio_metros=500):
     resultado = []
 
-    for ruta, paradas in PARADAS.items():
-
-        for parada in paradas:
-
+    for ruta, lista in PARADAS.items():
+        for parada in lista:
             distancia = calcular_distancia(
-                lat,
-                lon,
-                parada["lat"],
-                parada["lon"]
+                lat, lon, parada["lat"], parada["lon"]
             )
 
             if distancia <= radio_metros:
-
                 resultado.append({
                     "ruta": ruta,
                     "nombre": parada["nombre"],
-                    "lat": parada["lat"],
-                    "lon": parada["lon"],
-                    "distancia_m": round(
-                        distancia,
-                        2
-                    )
+                    "lat": float(parada["lat"]),
+                    "lon": float(parada["lon"]),
+                    "distancia_m": round(distancia, 2),
                 })
 
-    resultado.sort(
-        key=lambda x: x["distancia_m"]
-    )
-
+    resultado.sort(key=lambda x: x["distancia_m"])
     return resultado
 
 
-def buscar_paradas_ruta(
-    nombre_ruta,
-    lat,
-    lon,
-    radio_metros=500
-):
-    """
-    Busca paradas cercanas
-    únicamente dentro de una ruta
-    """
+# =====================================================
+# RUTAS CERCANAS
+# =====================================================
 
-    resultado = []
-
-    paradas = obtener_paradas_ruta(
-        nombre_ruta
-    )
-
-    for parada in paradas:
-
-        distancia = calcular_distancia(
-            lat,
-            lon,
-            parada["lat"],
-            parada["lon"]
-        )
-
-        if distancia <= radio_metros:
-
-            resultado.append({
-                **parada,
-                "distancia_m": round(
-                    distancia,
-                    2
-                )
-            })
-
-    resultado.sort(
-        key=lambda x: x["distancia_m"]
-    )
-
-    return resultado
-
-
-def obtener_rutas_cercanas(
-    lat,
-    lon,
-    radio_metros=500
-):
-    """
-    Devuelve rutas que tienen
-    al menos una parada cercana
-    """
-
+def obtener_rutas_cercanas(lat, lon, radio_metros=500):
     rutas = set()
-
-    paradas = buscar_paradas_cercanas(
-        lat,
-        lon,
-        radio_metros
-    )
+    paradas = buscar_paradas_cercanas(lat, lon, radio_metros)
 
     for parada in paradas:
-
-        rutas.add(
-            parada["ruta"]
-        )
+        rutas.add(parada["ruta"])
 
     return list(rutas)
 
 
-def obtener_mejores_rutas(
-    lat,
-    lon,
-    limite=5
-):
-    """
-    Devuelve las rutas más cercanas
-    al punto indicado
-    """
+# =====================================================
+# MEJORES RUTAS
+# =====================================================
 
-    mejores = {}
+def obtener_mejores_rutas(lat, lon, limite=5):
+    resultado = []
 
-    for ruta, paradas in PARADAS.items():
-
+    for ruta, lista in PARADAS.items():
         menor = float("inf")
 
-        for parada in paradas:
-
+        for parada in lista:
             distancia = calcular_distancia(
-                lat,
-                lon,
-                parada["lat"],
-                parada["lon"]
+                lat, lon, parada["lat"], parada["lon"]
             )
 
             if distancia < menor:
                 menor = distancia
 
-        mejores[ruta] = menor
-
-    rutas_ordenadas = sorted(
-        mejores.items(),
-        key=lambda x: x[1]
-    )
-
-    return [
-        {
+        resultado.append({
             "ruta": ruta,
-            "distancia_m": round(
-                distancia,
-                2
-            )
-        }
-        for ruta, distancia
-        in rutas_ordenadas[:limite]
-    ]
+            "distancia_m": round(menor, 2),
+        })
 
-
-# =====================================================
-# NUEVAS FUNCIONES PARA DIJKSTRA V2
-# =====================================================
-def obtener_mejores_paradas(
-    lat,
-    lon,
-    limite=10,
-    distancia_maxima=500
-):
-
-    resultado = []
-
-
-    # Guardamos la mejor parada
-    # encontrada por cada línea
-
-    mejores_por_ruta = {}
-
-
-
-    for ruta, paradas in PARADAS.items():
-
-
-        mejor = None
-
-        menor_distancia = float(
-            "inf"
-        )
-
-
-        for parada in paradas:
-
-
-            distancia = calcular_distancia(
-
-                lat,
-
-                lon,
-
-                parada["lat"],
-
-                parada["lon"]
-
-            )
-
-
-            if distancia < menor_distancia:
-
-
-                menor_distancia = distancia
-
-
-                mejor = {
-
-                    "ruta":
-                        ruta,
-
-
-                    "nombre":
-                        parada["nombre"],
-
-
-                    "lat":
-                        parada["lat"],
-
-
-                    "lon":
-                        parada["lon"],
-
-
-                    "distancia_m":
-                        round(
-                            distancia,
-                            2
-                        )
-
-                }
-
-
-
-        if mejor and menor_distancia <= distancia_maxima:
-
-
-            mejores_por_ruta[ruta] = mejor
-
-
-
-
-
-    resultado = list(
-        mejores_por_ruta.values()
-    )
-
-
-
-    resultado.sort(
-        key=lambda x:
-        x["distancia_m"]
-    )
-
-
+    resultado.sort(key=lambda x: x["distancia_m"])
     return resultado[:limite]
 
 
-def obtener_mejores_paradas_por_ruta(
-    lat,
-    lon,
-    limite_rutas=10
-):
+# =====================================================
+# FUNCIÓN PRINCIPAL PARA DIJKSTRA
+# =====================================================
+
+def obtener_mejores_paradas(lat, lon, limite=20, distancia_maxima=800):
     """
-    Devuelve una sola parada por ruta.
-    Evita evaluar decenas de veces
-    la misma línea.
+    Devuelve varias paradas cercanas.
+
+    IMPORTANTE:
+    No agrupa por línea. Dijkstra necesita conocer todas
+    las posibilidades para escoger correctamente.
     """
+    resultado = []
 
-    mejores = {}
-
-    for ruta, paradas in PARADAS.items():
-
-        mejor = None
-        menor = float("inf")
-
-        for parada in paradas:
-
+    for ruta, lista in PARADAS.items():
+        for parada in lista:
             distancia = calcular_distancia(
-                lat,
-                lon,
-                parada["lat"],
-                parada["lon"]
+                lat, lon, parada["lat"], parada["lon"]
             )
 
-            if distancia < menor:
-
-                menor = distancia
-
-                mejor = {
+            if distancia <= distancia_maxima:
+                resultado.append({
                     "ruta": ruta,
                     "nombre": parada["nombre"],
-                    "lat": parada["lat"],
-                    "lon": parada["lon"],
-                    "distancia_m": round(
-                        distancia,
-                        2
-                    )
-                }
+                    "lat": float(parada["lat"]),
+                    "lon": float(parada["lon"]),
+                    "distancia_m": round(distancia, 2),
+                })
 
-        if mejor:
-            mejores[ruta] = mejor
+    resultado.sort(key=lambda x: x["distancia_m"])
+    return resultado[:limite]
 
-    resultado = list(
-        mejores.values()
-    )
 
-    resultado.sort(
-        key=lambda x: x["distancia_m"]
-    )
+# =====================================================
+# PARADAS POR RUTA
+# =====================================================
 
+def obtener_mejores_paradas_por_ruta(lat, lon, limite_rutas=10):
+    resultado = []
+
+    for ruta, lista in PARADAS.items():
+        for parada in lista:
+            distancia = calcular_distancia(
+                lat, lon, parada["lat"], parada["lon"]
+            )
+
+            resultado.append({
+                "ruta": ruta,
+                "nombre": parada["nombre"],
+                "lat": float(parada["lat"]),
+                "lon": float(parada["lon"]),
+                "distancia_m": round(distancia, 2),
+            })
+
+    resultado.sort(key=lambda x: x["distancia_m"])
     return resultado[:limite_rutas]

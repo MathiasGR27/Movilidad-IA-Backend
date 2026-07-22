@@ -1,16 +1,14 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, config, request, jsonify
 from flask_bcrypt import Bcrypt
 from models.user_model import User
 from database.db import db
-
+from config import Config
 import jwt
 import datetime
-import os
 
 auth_bp = Blueprint("auth_bp", __name__)
 bcrypt = Bcrypt()
 
-SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 # =========================
@@ -91,7 +89,7 @@ def login():
             "email": usuario.email,
             "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=4)
         },
-        SECRET_KEY,
+        Config.SECRET_KEY,
         algorithm="HS256"
     )
 

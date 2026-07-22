@@ -1,6 +1,7 @@
 import json
 import os
-
+import re
+import unicodedata
 
 BASE_DIR = os.path.dirname(
     os.path.dirname(
@@ -11,20 +12,17 @@ BASE_DIR = os.path.dirname(
 RUTA_LUGARES = os.path.join(
     BASE_DIR,
     "data",
-    "lugares.json"
+    "lugares_final.json"
 )
-
 RUTA_INTERSECCIONES = os.path.join(
     BASE_DIR,
     "data",
     "intersecciones.json"
 )
 
-
-# ==============================
+# ==================================
 # CARGAR LUGARES
-# ==============================
-
+# ==================================
 with open(
     RUTA_LUGARES,
     encoding="utf-8"
@@ -33,129 +31,172 @@ with open(
     LUGARES_LOCALES = json.load(
         archivo
     )
-
-
-# ==============================
-# CARGAR INTERSECCIONES
-# ==============================
-
 if os.path.exists(
     RUTA_INTERSECCIONES
 ):
-
     with open(
         RUTA_INTERSECCIONES,
         encoding="utf-8"
     ) as archivo:
-
         INTERSECCIONES = json.load(
             archivo
         )
-
 else:
-
     INTERSECCIONES = {}
 
-
-# ==============================
+# ==================================
 # NORMALIZAR TEXTO
-# ==============================
-
+# ==================================
 def normalizar_texto(texto):
+    if not texto:
+        return ""
 
     texto = texto.lower().strip()
+    texto = unicodedata.normalize(
+        "NFD",
+        texto
+    )
+    texto = "".join(
+        letra
+        for letra in texto
+        if unicodedata.category(letra) != "Mn"
+    )
+    texto = re.sub(
+        r"[^a-z0-9\s]",
+        "",
+        texto
+    )
+    reemplazos = {
+        "cooperativa": "coop",
+        "avenida": "av",
+        "avenida.": "av",
+        "av.": "av"
+    }
+    for original,nuevo in reemplazos.items():
+        texto = texto.replace(
+            original,
+            nuevo
+        )
+    texto = re.sub(
+        r"\s+",
+        " ",
+        texto
+    )
+    return texto.strip()
 
-    texto = texto.replace(
-        "á",
-        "a"
+# ==================================
+# LIMPIAR CONSULTA DEL USUARIO
+# ==================================
+def limpiar_consulta_lugar(texto):
+    texto = normalizar_texto(
+        texto
     )
 
-    texto = texto.replace(
-        "é",
-        "e"
-    )
-
-    texto = texto.replace(
-        "í",
-        "i"
-    )
-
-    texto = texto.replace(
-        "ó",
-        "o"
-    )
-
-    texto = texto.replace(
-        "ú",
-        "u"
-    )
-
-    articulos = [
-        "el ",
-        "la ",
-        "los ",
-        "las "
+    palabras_eliminar = [
+        "quiero",
+        "ir",
+        "llegar",
+        "llevame",
+        "llevarme",
+        "como",
+        "llego",
+        "llegar",
+        "hasta",
+        "hacia",
+        "ubicado",
+        "ubicada",
+        "conocido",
+        "conocida",
+        "por",
+        "favor"
     ]
 
-    for articulo in articulos:
+    palabras = texto.split()
 
-        if texto.startswith(
-            articulo
-        ):
+    resultado=[]
 
-            texto = texto[
-                len(articulo):
-            ]
+    for palabra in palabras:
+        if palabra not in palabras_eliminar:
+            resultado.append(
+                palabra
+            )
+    return " ".join(resultado)
 
-            break
-
-    return texto
-
-
-# ==============================
+# ==================================
 # BUSCAR LUGAR
-# ==============================
-
+# ==================================
 def buscar_lugar_local(texto):
-
     if not texto:
         return None
+    texto_normalizado = limpiar_consulta_lugar(
+        texto
+    )
+    mejor_resultado=None
+    mayor_puntaje=0
 
-    texto = normalizar_texto(texto)
+    for clave,lugar in LUGARES_LOCALES.items():
+        candidatos=[]
 
-    # búsqueda exacta
-    if texto in LUGARES_LOCALES:
-        return LUGARES_LOCALES[texto]
-
-
-    # búsqueda parcial
-    for clave, lugar in LUGARES_LOCALES.items():
-
-        clave_normalizada = normalizar_texto(
+        candidatos.append(
             clave
         )
 
-        nombre_normalizado = normalizar_texto(
-            lugar["nombre"]
+        candidatos.append(
+            lugar.get(
+                "nombre",
+                ""
+            )
         )
 
+        candidatos.extend(
+            lugar.get(
+                "alias",
+                []
+            )
+        )
+        prioridad = lugar.get(
+            "prioridad",
+            0
+        )
 
-        if (
-            texto in clave_normalizada
-            or
-            clave_normalizada in texto
-            or
-            texto in nombre_normalizado.lower()
-            or
-            nombre_normalizado.lower() in texto
-        ):
+        for candidato in candidatos:
+            candidato_normalizado = normalizar_texto(
+                candidato
+            )
+            puntaje=0
 
-            return lugar
+            if texto_normalizado == candidato_normalizado:
+                puntaje=100
+            elif texto_normalizado in candidato_normalizado:
+                puntaje=80
+            elif candidato_normalizado in texto_normalizado:
+                puntaje=75
+            else:
+                palabras_usuario=set(
+                    texto_normalizado.split()
+                )
+                palabras_lugar=set(
+                    candidato_normalizado.split()
+                )
+                coincidencias=len(
+                    palabras_usuario &
+                    palabras_lugar
+                )
 
+                if coincidencias:
+                    puntaje=50 + coincidencias*10
 
-    # intersecciones
-    if texto in INTERSECCIONES:
-        return INTERSECCIONES[texto]
+            # sumar prioridad
+            puntaje += prioridad
+            if puntaje > mayor_puntaje:
+                mayor_puntaje=puntaje
+                mejor_resultado=lugar
 
+    if mayor_puntaje >= 50:
+        return mejor_resultado
 
+    if texto_normalizado in INTERSECCIONES:
+        return INTERSECCIONES[
+            texto_normalizado
+        ]
     return None
