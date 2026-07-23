@@ -39,7 +39,7 @@ def calcular_distancia(lat1, lon1, lat2, lon2):
 
 
 # =====================================================
-# OBTENER PARADAS DE UNA RUTA
+# OBTENER PARADAS DE UNA LINEA
 # =====================================================
 
 def obtener_paradas_ruta(nombre_ruta):
@@ -47,7 +47,7 @@ def obtener_paradas_ruta(nombre_ruta):
 
 
 # =====================================================
-# PARADA MÁS CERCANA
+# PARADA MAS CERCANA
 # =====================================================
 
 def buscar_parada_mas_cercana(lat, lon):
@@ -74,10 +74,10 @@ def buscar_parada_mas_cercana(lat, lon):
 
 
 # =====================================================
-# TODAS LAS PARADAS CERCANAS
+# PARADAS CERCANAS
 # =====================================================
 
-def buscar_paradas_cercanas(lat, lon, radio_metros=500):
+def buscar_paradas_cercanas(lat, lon, radio_metros=700):
     resultado = []
 
     for ruta, lista in PARADAS.items():
@@ -103,7 +103,7 @@ def buscar_paradas_cercanas(lat, lon, radio_metros=500):
 # RUTAS CERCANAS
 # =====================================================
 
-def obtener_rutas_cercanas(lat, lon, radio_metros=500):
+def obtener_rutas_cercanas(lat, lon, radio_metros=700):
     rutas = set()
     paradas = buscar_paradas_cercanas(lat, lon, radio_metros)
 
@@ -141,16 +141,17 @@ def obtener_mejores_rutas(lat, lon, limite=5):
 
 
 # =====================================================
-# FUNCIÓN PRINCIPAL PARA DIJKSTRA
+# FUNCION PRINCIPAL PARA DIJKSTRA
 # =====================================================
 
-def obtener_mejores_paradas(lat, lon, limite=20, distancia_maxima=800):
+def obtener_mejores_paradas(lat, lon, limite=50, distancia_maxima=1000):
     """
-    Devuelve varias paradas cercanas.
+    Devuelve candidatos de subida.
 
     IMPORTANTE:
-    No agrupa por línea. Dijkstra necesita conocer todas
-    las posibilidades para escoger correctamente.
+    NO selecciona la parada final.
+    Solo entrega opciones para que
+    Dijkstra evalúe la mejor ruta.
     """
     resultado = []
 
@@ -169,12 +170,13 @@ def obtener_mejores_paradas(lat, lon, limite=20, distancia_maxima=800):
                     "distancia_m": round(distancia, 2),
                 })
 
+    # Primero las cercanas
     resultado.sort(key=lambda x: x["distancia_m"])
     return resultado[:limite]
 
 
 # =====================================================
-# PARADAS POR RUTA
+# MEJORES PARADAS POR RUTA
 # =====================================================
 
 def obtener_mejores_paradas_por_ruta(lat, lon, limite_rutas=10):

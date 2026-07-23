@@ -8,15 +8,11 @@ import networkx as nx
 # CONFIGURACIÓN
 # =====================================================
 
-# distancia máxima caminando entre paradas
 DISTANCIA_MAX_TRANSBORDO = 40
-
-# costo fuerte de cambiar de bus
 COSTO_BASE_TRANSBORDO = 30000
 
-
 # =====================================================
-# CARGA DE PARADAS
+# CARGA
 # =====================================================
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,7 +23,24 @@ with open(RUTA_PARADAS, encoding="utf-8") as archivo:
 
 
 # =====================================================
-# INDICE DE PARADAS
+# SENTIDO
+# =====================================================
+
+
+def obtener_sentido(linea):
+    linea = linea.upper()
+
+    if "IDA" in linea:
+        return "IDA"
+
+    if "RETORNO" in linea or "REGRESO" in linea:
+        return "RETORNO"
+
+    return "DESCONOCIDO"
+
+
+# =====================================================
+# INDEXADO
 # =====================================================
 
 PARADAS_INDEXADAS = {}
@@ -39,12 +52,14 @@ for linea, lista in PARADAS.items():
             "nombre": parada["nombre"],
             "lat": float(parada["lat"]),
             "lon": float(parada["lon"]),
+            "sentido": obtener_sentido(linea),
         }
 
 
 # =====================================================
-# DISTANCIA HAVERSINE
+# DISTANCIA
 # =====================================================
+
 
 def calcular_distancia(lat1, lon1, lat2, lon2):
     R = 6371000
@@ -57,25 +72,19 @@ def calcular_distancia(lat1, lon1, lat2, lon2):
     dlat = lat2 - lat1
     dlon = lon2 - lon1
 
-    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
+    a = (
+        sin(dlat / 2) ** 2
+        + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
+    )
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
     return R * c
 
 
 # =====================================================
-# OBTENER LINEA
-# =====================================================
-
-def obtener_linea(nombre):
-    if " - " in nombre:
-        return nombre.split(" - ")[0]
-    return nombre
-
-
-# =====================================================
 # CREAR NODOS
 # =====================================================
+
 
 def crear_nodos(G):
     for linea, lista in PARADAS.items():
@@ -85,14 +94,16 @@ def crear_nodos(G):
                 nombre,
                 nombre=nombre,
                 linea=linea,
+                sentido=obtener_sentido(linea),
                 lat=float(parada["lat"]),
                 lon=float(parada["lon"]),
             )
 
 
 # =====================================================
-# CONEXIONES MISMA LINEA
+# CONEXIONES
 # =====================================================
+
 
 def crear_conexiones_lineas(G):
     for linea, lista in PARADAS.items():
@@ -104,7 +115,10 @@ def crear_conexiones_lineas(G):
             destino = siguiente["nombre"]
 
             distancia = calcular_distancia(
-                actual["lat"], actual["lon"], siguiente["lat"], siguiente["lon"]
+                actual["lat"],
+                actual["lon"],
+                siguiente["lat"],
+                siguiente["lon"],
             )
 
             G.add_edge(
@@ -114,12 +128,14 @@ def crear_conexiones_lineas(G):
                 distancia=distancia,
                 tipo="ruta",
                 linea=linea,
+                sentido=obtener_sentido(linea),
             )
 
 
 # =====================================================
-# CREAR TRANSBORDOS
+# TRANSBORDOS
 # =====================================================
+
 
 def crear_transbordos(G):
     nodos = list(G.nodes(data=True))
@@ -131,15 +147,14 @@ def crear_transbordos(G):
         for j in range(i + 1, len(nodos)):
             nodo2, datos2 = nodos[j]
 
-            linea1 = datos1["linea"]
-            linea2 = datos2["linea"]
-
-            # misma línea no cambia
-            if linea1 == linea2:
+            if datos1["linea"] == datos2["linea"]:
                 continue
 
             distancia = calcular_distancia(
-                datos1["lat"], datos1["lon"], datos2["lat"], datos2["lon"]
+                datos1["lat"],
+                datos1["lon"],
+                datos2["lat"],
+                datos2["lon"],
             )
 
             if distancia <= DISTANCIA_MAX_TRANSBORDO:
@@ -151,8 +166,8 @@ def crear_transbordos(G):
                     peso=peso,
                     distancia=distancia,
                     tipo="transbordo",
-                    linea_origen=linea1,
-                    linea_destino=linea2,
+                    linea_origen=datos1["linea"],
+                    linea_destino=datos2["linea"],
                 )
 
                 G.add_edge(
@@ -161,8 +176,8 @@ def crear_transbordos(G):
                     peso=peso,
                     distancia=distancia,
                     tipo="transbordo",
-                    linea_origen=linea2,
-                    linea_destino=linea1,
+                    linea_origen=datos2["linea"],
+                    linea_destino=datos1["linea"],
                 )
 
                 cantidad += 1
@@ -171,8 +186,9 @@ def crear_transbordos(G):
 
 
 # =====================================================
-# CONSTRUIR GRAFO
+# CONSTRUIR
 # =====================================================
+
 
 def construir_grafo():
     G = nx.DiGraph()
@@ -191,15 +207,10 @@ def construir_grafo():
 
 
 # =====================================================
-# OBTENER DATOS PARADA
+# DATOS PARADA
 # =====================================================
-
 def obtener_datos_parada(nombre):
     return PARADAS_INDEXADAS.get(nombre)
 
-
-# =====================================================
-# GRAFO GLOBAL
-# =====================================================
 
 grafo = construir_grafo()

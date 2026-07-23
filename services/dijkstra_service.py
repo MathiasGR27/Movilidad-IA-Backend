@@ -1,13 +1,16 @@
+import logging
+
 import networkx as nx
 
-from services.caminata_service import generar_caminata
-from services.geojson_dijkstra_service import generar_geojson_camino
-from services.grafo_service import (
-    calcular_distancia,
-    construir_grafo,
-    obtener_datos_parada,
+from services.caminata_service import (
+    calcular_distancias_caminata_batch,
+    generar_caminata,
 )
+from services.geojson_dijkstra_service import generar_geojson_camino
+from services.grafo_service import construir_grafo, obtener_datos_parada
 from services.paradas_service import obtener_mejores_paradas
+
+logger = logging.getLogger(__name__)
 
 # =====================================================
 # GRAFO GLOBAL
@@ -21,10 +24,10 @@ G = construir_grafo()
 
 PENALIZACION_TRANSBORDO = 50000
 PENALIZACION_MULTIPLES_TRANSBORDOS = 80000
-PENALIZACION_CAMINATA = 5
+PENALIZACION_CAMINATA = 10
 
 # =====================================================
-# LINEAS ESPECIALES
+# LINEAS INTERPROVINCIALES
 # =====================================================
 
 LINEAS_INTERPROVINCIALES = [
@@ -42,8 +45,9 @@ DESTINOS_PERMITIDOS_INTERPROVINCIAL = [
 
 
 # =====================================================
-# OBTENER LINEA
+# FUNCIONES AUXILIARES
 # =====================================================
+
 
 def obtener_linea_parada(nombre):
     if not nombre:
@@ -54,10 +58,6 @@ def obtener_linea_parada(nombre):
 
     return nombre
 
-
-# =====================================================
-# VALIDAR RUTA 23
-# =====================================================
 
 def destino_permite_interprovincial(destino):
     if not destino:
@@ -76,10 +76,6 @@ def destino_permite_interprovincial(destino):
     return False
 
 
-# =====================================================
-# CREAR SEGMENTO
-# =====================================================
-
 def crear_segmento(linea, inicio, fin):
     ini = obtener_datos_parada(inicio)
     final = obtener_datos_parada(fin)
@@ -89,10 +85,20 @@ def crear_segmento(linea, inicio, fin):
         "inicio": inicio,
         "fin": fin,
         "inicio_coordenadas": (
-            {"lat": float(ini["lat"]), "lon": float(ini["lon"])} if ini else None
+            {
+                "lat": float(ini["lat"]),
+                "lon": float(ini["lon"]),
+            }
+            if ini
+            else None
         ),
         "fin_coordenadas": (
-            {"lat": float(final["lat"]), "lon": float(final["lon"])} if final else None
+            {
+                "lat": float(final["lat"]),
+                "lon": float(final["lon"]),
+            }
+            if final
+            else None
         ),
     }
 
@@ -101,9 +107,14 @@ def crear_segmento(linea, inicio, fin):
 # ANALIZAR CAMINO
 # =====================================================
 
+
 def analizar_camino(camino):
     if not camino:
-        return {"lineas": [], "transbordos": 0, "segmentos": []}
+        return {
+            "lineas": [],
+            "transbordos": 0,
+            "segmentos": [],
+        }
 
     lineas = []
     segmentos = []
@@ -122,8 +133,13 @@ def analizar_camino(camino):
 
             if edge and edge.get("tipo") == "transbordo":
                 segmentos.append(
-                    crear_segmento(linea_actual, inicio_segmento, camino[i - 1])
+                    crear_segmento(
+                        linea_actual,
+                        inicio_segmento,
+                        camino[i - 1],
+                    )
                 )
+
                 transbordos += 1
                 linea_actual = linea_nueva
                 inicio_segmento = camino[i]
@@ -132,7 +148,11 @@ def analizar_camino(camino):
                     lineas.append(linea_nueva)
 
     segmentos.append(
-        crear_segmento(linea_actual, inicio_segmento, camino[-1])
+        crear_segmento(
+            linea_actual,
+            inicio_segmento,
+            camino[-1],
+        )
     )
 
     return {
@@ -143,85 +163,158 @@ def analizar_camino(camino):
 
 
 # =====================================================
-# PUNTAJE
+# CALCULAR CAMINATAS (2 peticiones HTTP en vez de 40)
 # =====================================================
 
-def calcular_puntaje(distancia_bus, transbordos, caminata):
-    return (
-        distancia_bus
-        + (transbordos * PENALIZACION_TRANSBORDO)
-        + (caminata * PENALIZACION_CAMINATA)
+
+def _calcular_caminatas_candidatas(origen, destino, paradas_origen, paradas_destino):
+    puntos_origen = [{"lat": p["lat"], "lon": p["lon"]} for p in paradas_origen]
+    distancias_origen = calcular_distancias_caminata_batch(
+        origen, puntos_origen, punto_fijo_es_origen=True
     )
 
+    for parada, distancia in zip(paradas_origen, distancias_origen):
+        parada["caminata_real"] = (
+            distancia if distancia != 999999 else parada["distancia_m"]
+        )
+
+    puntos_destino = [{"lat": p["lat"], "lon": p["lon"]} for p in paradas_destino]
+    distancias_destino = calcular_distancias_caminata_batch(
+        destino, puntos_destino, punto_fijo_es_origen=False
+    )
+
+    for parada, distancia in zip(paradas_destino, distancias_destino):
+        parada["caminata_real"] = (
+            distancia if distancia != 999999 else parada["distancia_m"]
+        )
+
 
 # =====================================================
-# BUSCAR RUTA
+# BUSCAR RUTA OPTIMA
 # =====================================================
+
 
 def buscar_ruta_optima(origen, destino):
+    # ==========================================
+    # OBTENER CANDIDATAS
+    # ==========================================
+
     paradas_origen = obtener_mejores_paradas(
-        origen["lat"], origen["lon"], limite=40, distancia_maxima=800
+        origen["lat"],
+        origen["lon"],
+        limite=20,
+        distancia_maxima=800,
     )
 
     paradas_destino = obtener_mejores_paradas(
-        destino["lat"], destino["lon"], limite=40, distancia_maxima=800
+        destino["lat"],
+        destino["lon"],
+        limite=20,
+        distancia_maxima=800,
     )
+
+    logger.debug("Paradas candidatas origen: %s", paradas_origen)
+
+    if not paradas_origen or not paradas_destino:
+        return None
+
+    # ==========================================
+    # CALCULAR CAMINATAS (2 peticiones en total)
+    # ==========================================
+
+    _calcular_caminatas_candidatas(origen, destino, paradas_origen, paradas_destino)
+
+    # ==========================================
+    # DIJKSTRA
+    # ==========================================
+    #
+    # En vez de correr dijkstra_path para cada combinacion
+    # (origen x destino = hasta 400 corridas), se corre UNA
+    # sola vez single_source_dijkstra por cada parada de origen
+    # (maximo 20 corridas), obteniendo de una vez los caminos
+    # hacia TODOS los nodos del grafo. De ahi se extrae el
+    # camino hacia cada parada de destino candidata.
+    # ==========================================
 
     mejor = None
     mejor_puntaje = float("inf")
+    mejor_camino = None
     usar_23 = destino_permite_interprovincial(destino)
 
     for inicio in paradas_origen:
+        try:
+            _, caminos = nx.single_source_dijkstra(
+                G, inicio["nombre"], weight="peso"
+            )
+        except nx.NodeNotFound:
+            continue
+
         for fin in paradas_destino:
-            try:
-                camino = nx.dijkstra_path(
-                    G, inicio["nombre"], fin["nombre"], weight="peso"
-                )
+            camino = caminos.get(fin["nombre"])
 
-                analisis = analizar_camino(camino)
-                lineas = analisis["lineas"]
-
-                if not usar_23:
-                    if any(linea in LINEAS_INTERPROVINCIALES for linea in lineas):
-                        continue
-
-                distancia_bus = 0
-                for i in range(len(camino) - 1):
-                    edge = G.get_edge_data(camino[i], camino[i + 1])
-                    if edge:
-                        distancia_bus += edge.get("distancia", 0)
-
-                caminata = inicio["distancia_m"] + fin["distancia_m"]
-                puntaje = calcular_puntaje(
-                    distancia_bus, analisis["transbordos"], caminata
-                )
-
-                if analisis["transbordos"] >= 2:
-                    puntaje += PENALIZACION_MULTIPLES_TRANSBORDOS
-
-                if puntaje < mejor_puntaje:
-                    mejor_puntaje = puntaje
-                    mejor = {
-                        "parada_origen": inicio,
-                        "parada_destino": fin,
-                        "camino": camino,
-                        "total_paradas": len(camino),
-                        "lineas_utilizadas": lineas,
-                        "cantidad_transbordos": analisis["transbordos"],
-                        "segmentos": analisis["segmentos"],
-                        "puntaje": puntaje,
-                        "geojson": generar_geojson_camino(camino),
-                    }
-
-            except (nx.NetworkXNoPath, nx.NodeNotFound):
+            if camino is None:
                 continue
+
+            analisis = analizar_camino(camino)
+            lineas = analisis["lineas"]
+
+            if not usar_23:
+                if any(linea in LINEAS_INTERPROVINCIALES for linea in lineas):
+                    continue
+
+            distancia_bus = 0
+            for i in range(len(camino) - 1):
+                edge = G.get_edge_data(camino[i], camino[i + 1])
+                if edge:
+                    distancia_bus += edge.get("distancia", 0)
+
+            caminata = inicio["caminata_real"] + fin["caminata_real"]
+
+            puntaje = (
+                distancia_bus
+                + (analisis["transbordos"] * PENALIZACION_TRANSBORDO)
+                + (caminata * PENALIZACION_CAMINATA)
+            )
+
+            if analisis["transbordos"] >= 2:
+                puntaje += PENALIZACION_MULTIPLES_TRANSBORDOS
+
+            if puntaje < mejor_puntaje:
+                mejor_puntaje = puntaje
+                mejor_camino = camino
+
+                logger.debug(
+                    "Nueva mejor ruta: lineas=%s subida=%s bajada=%s "
+                    "caminata=%s bus=%s puntaje=%s",
+                    lineas,
+                    inicio["nombre"],
+                    fin["nombre"],
+                    caminata,
+                    distancia_bus,
+                    puntaje,
+                )
+
+                mejor = {
+                    "parada_origen": inicio,
+                    "parada_destino": fin,
+                    "camino": camino,
+                    "total_paradas": len(camino),
+                    "lineas_utilizadas": lineas,
+                    "cantidad_transbordos": analisis["transbordos"],
+                    "segmentos": analisis["segmentos"],
+                    "puntaje": puntaje,
+                }
 
     if not mejor:
         return None
 
-    # =================================================
-    # CAMINATAS
-    # =================================================
+    # Solo se genera el geojson UNA vez, para la ruta ganadora
+    mejor["geojson"] = generar_geojson_camino(mejor_camino)
+
+    # ==========================================
+    # GENERAR LINEAS CAMINANDO PARA MAPA
+    # ==========================================
+
     if mejor["segmentos"]:
         inicio_bus = mejor["segmentos"][0]["inicio_coordenadas"]
         fin_bus = mejor["segmentos"][-1]["fin_coordenadas"]
@@ -230,11 +323,17 @@ def buscar_ruta_optima(origen, destino):
         caminar_fin = generar_caminata(fin_bus, destino)
 
         mejor["caminata_inicio"] = {
-            "geojson": {"type": "LineString", "coordinates": caminar_inicio}
+            "geojson": {
+                "type": "LineString",
+                "coordinates": caminar_inicio,
+            }
         }
 
         mejor["caminata_fin"] = {
-            "geojson": {"type": "LineString", "coordinates": caminar_fin}
+            "geojson": {
+                "type": "LineString",
+                "coordinates": caminar_fin,
+            }
         }
 
     return mejor

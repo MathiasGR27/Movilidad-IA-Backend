@@ -9557,6 +9557,335 @@
             "lon": -79.1977556678944
         }
     ],
+    "LINEA_22_IDA": [
+        {
+            "nombre": "LINEA_22_IDA - Parada 1",
+            "lat": -0.22781230000000796,
+            "lon": -79.185319
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 2",
+            "lat": -0.22782291225708565,
+            "lon": -79.18779752905886
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 3",
+            "lat": -0.23013810550172561,
+            "lon": -79.18753117180599
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 4",
+            "lat": -0.23217432196483184,
+            "lon": -79.18691219183339
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 5",
+            "lat": -0.23487909028838708,
+            "lon": -79.18711972636393
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 6",
+            "lat": -0.23640045944264534,
+            "lon": -79.18593172098716
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 7",
+            "lat": -0.23907226618275318,
+            "lon": -79.18638135130809
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 8",
+            "lat": -0.23966696107265348,
+            "lon": -79.18520441117758
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 9",
+            "lat": -0.241243568394865,
+            "lon": -79.18344535062121
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 10",
+            "lat": -0.23984347035262613,
+            "lon": -79.18117109237033
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 11",
+            "lat": -0.23906661119850883,
+            "lon": -79.17864652116448
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 12",
+            "lat": -0.2391406565859834,
+            "lon": -79.1759528508101
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 13",
+            "lat": -0.24152677042492726,
+            "lon": -79.1758210663516
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 14",
+            "lat": -0.24314773451792177,
+            "lon": -79.17387452867725
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 15",
+            "lat": -0.244991740220413,
+            "lon": -79.17330514599118
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 16",
+            "lat": -0.2473916094080718,
+            "lon": -79.17421163642565
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 17",
+            "lat": -0.24937754894051609,
+            "lon": -79.17364761055359
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 18",
+            "lat": -0.25206769485680197,
+            "lon": -79.173994692381
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 19",
+            "lat": -0.2547609365599582,
+            "lon": -79.17431773699593
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 20",
+            "lat": -0.25573139286774127,
+            "lon": -79.17254528071918
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 21",
+            "lat": -0.2558165747626524,
+            "lon": -79.16985538267133
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 22",
+            "lat": -0.2579832112825459,
+            "lon": -79.16950455063292
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 23",
+            "lat": -0.2606901360208847,
+            "lon": -79.16968179182938
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 24",
+            "lat": -0.26320250148411856,
+            "lon": -79.16948479183512
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 25",
+            "lat": -0.26528500409537803,
+            "lon": -79.16887229907441
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 26",
+            "lat": -0.266055691303287,
+            "lon": -79.17093437907042
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 27",
+            "lat": -0.2676639937186656,
+            "lon": -79.17195857329182
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 28",
+            "lat": -0.26947358412923766,
+            "lon": -79.17282710143441
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 29",
+            "lat": -0.27077917782955957,
+            "lon": -79.17138740031854
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 30",
+            "lat": -0.27225557274601647,
+            "lon": -79.17259871984817
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 31",
+            "lat": -0.2738838359709712,
+            "lon": -79.17182307143551
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 32",
+            "lat": -0.27571076793025256,
+            "lon": -79.1715658654907
+        },
+        {
+            "nombre": "LINEA_22_IDA - Parada 33",
+            "lat": -0.2766838778022909,
+            "lon": -79.1731987255802
+        }
+    ],
+    "LINEA_22_REGRESO": [
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 1",
+            "lat": -0.2762128000000075,
+            "lon": -79.1717387
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 2",
+            "lat": -0.2743601454767633,
+            "lon": -79.1718145480826
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 3",
+            "lat": -0.27229170148135673,
+            "lon": -79.17251466488054
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 4",
+            "lat": -0.2708072771670722,
+            "lon": -79.17372932821365
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 5",
+            "lat": -0.26898059172980154,
+            "lon": -79.17283729517592
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 6",
+            "lat": -0.2676673849650446,
+            "lon": -79.17147125251294
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 7",
+            "lat": -0.2660371170496302,
+            "lon": -79.17040175480776
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 8",
+            "lat": -0.2649246992658586,
+            "lon": -79.16871443416338
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 9",
+            "lat": -0.2628921819770455,
+            "lon": -79.16983991972569
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 10",
+            "lat": -0.2601853766835453,
+            "lon": -79.169660884217
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 11",
+            "lat": -0.25747857192062895,
+            "lon": -79.16948184474353
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 12",
+            "lat": -0.2567100111587245,
+            "lon": -79.17142147039085
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 13",
+            "lat": -0.25405656797246495,
+            "lon": -79.17093718402415
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 14",
+            "lat": -0.2519307378725786,
+            "lon": -79.17131525212966
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 15",
+            "lat": -0.2517004975922821,
+            "lon": -79.17396794280226
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 16",
+            "lat": -0.2498545332663124,
+            "lon": -79.1752208450676
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 17",
+            "lat": -0.24734419191560844,
+            "lon": -79.17419936696558
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 18",
+            "lat": -0.24492356388178396,
+            "lon": -79.17299593682799
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 19",
+            "lat": -0.24310560758906352,
+            "lon": -79.17404293333327
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 20",
+            "lat": -0.24132844353717522,
+            "lon": -79.17579742139124
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 21",
+            "lat": -0.23902671557602911,
+            "lon": -79.17607378370778
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 22",
+            "lat": -0.23891667923208187,
+            "lon": -79.17876624054698
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 23",
+            "lat": -0.23986324891358082,
+            "lon": -79.18122913262539
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 24",
+            "lat": -0.24100458336806405,
+            "lon": -79.18364840741278
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 25",
+            "lat": -0.2390918170365547,
+            "lon": -79.18414488213742
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 26",
+            "lat": -0.24011049355971184,
+            "lon": -79.18653891877055
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 27",
+            "lat": -0.23745408286758224,
+            "lon": -79.18602611843225
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 28",
+            "lat": -0.23595007729596748,
+            "lon": -79.18720477256788
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 29",
+            "lat": -0.23324540817870884,
+            "lon": -79.18699596464921
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 30",
+            "lat": -0.23054073967664712,
+            "lon": -79.18678715282029
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 31",
+            "lat": -0.2288797517188198,
+            "lon": -79.1878703314061
+        },
+        {
+            "nombre": "LINEA_22_REGRESO - Parada 32",
+            "lat": -0.22770401483563427,
+            "lon": -79.18635965923596
+        }
+    ],
     "LINEA_23A_IDA": [
         {
             "nombre": "LINEA_23A_IDA - Parada 1",

@@ -411,6 +411,16 @@
         "lat": -0.254512,
         "lon": -79.191942
     },
+    "Santurario Bomboli": {
+        "nombre": "Santuario Bombolí",
+        "alias": [
+            "bomboli",
+            "santurario bomboli",
+            "cerro bomboli"
+        ],
+        "lat": -0.249325,
+        "lon": -79.188776
+    },
     "duragas": {
         "nombre": "Duragas",
         "alias": [
@@ -475,6 +485,42 @@
         "lat": -0.2256627,
         "lon": -79.1976896
     },
+    "Cheguevara sector 1": {
+        "nombre": "Cheguevara Sector 1",
+        "alias": [
+            "cheguevara sector 1",
+            "la che sector 1"
+        ],
+        "lat": -0.236252, 
+        "lon": -79.186542
+    },
+     "Cheguevara sector 2": {
+        "nombre": "Cheguevara Sector 2",
+        "alias": [
+            "cheguevara sector 2",
+            "la che sector 2"
+        ],
+        "lat": -0.233803, 
+        "lon": -79.187054
+    },
+     "Cheguevara sector 3": {
+        "nombre": "Cheguevara Sector 3",
+        "alias": [
+            "cheguevara sector 3",
+            "la che sector 3"
+        ],
+        "lat": -0.228164, 
+        "lon": -79.186612
+    },
+     "Cheguevara sector 4": {
+        "nombre": "Cheguevara Sector 4",
+        "alias": [
+            "cheguevara sector 4",
+            "la che sector 4"
+        ],
+        "lat": -0.227695,
+        "lon": -79.186637
+    },
     "via la bengala": {
         "nombre": "Vía La Bengala",
         "alias": [
@@ -499,8 +545,8 @@
             "rosales",
             "redondel de la virgen de los rosales"
         ],
-        "lat": -0.2256627,
-        "lon": -79.1976896
+        "lat": -0.24622073388831128,
+        "lon": -79.18438374159895
     },
     "ñor schumacher": {
         "nombre": "Ñor Schumacher",
