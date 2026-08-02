@@ -557,19 +557,19 @@
         "lat": -0.24622073388831128,
         "lon": -79.18438374159895
     },
-    "ñor schumacher": {
-        "nombre": "Ñor Schumacher",
+    "Monseñor  schumacher": {
+        "nombre": "Monseñor Schumacher",
         "alias": [
             "schumacher",
-            "ñor schumacher"
+            "Monseñor schumacher"
         ],
         "lat": -0.2256627,
         "lon": -79.1976896
     },
-    "io machangara": {
-        "nombre": "Ío Machángara",
+    "Rio machangara": {
+        "nombre": "Rio Machángara",
         "alias": [
-            "io machangara",
+            "Rio machangara",
             "machangara"
         ],
         "lat": -0.2256627,
@@ -674,5 +674,15 @@
         ],
         "lat": -0.238619,
         "lon": -79.194317
+    },
+    "Universidad de las fuerzas armadas Espe": {
+        "nombre": "Universidad De Las Fuerzas Armadas Espe",
+        "alias": [
+            "universidad de las fuerzas armadas Espe",
+            "Espe",
+            "espe"
+        ],
+        "lat": -0.412509,
+        "lon": -79.309768
     }
 }
