@@ -138,27 +138,49 @@ def chat():
         }), 404
 
     try:
-        print("\n====================================")
-        print("MENSAJE:", mensaje)
-        print("GPS:", ubicacion_actual)
-        print("====================================")
+        # =====================================
+        # INICIO DEL PROCESAMIENTO
+        # =====================================
+
+        print("\n" + "=" * 55)
+        print("PROCESAMIENTO DE CONSULTA")
+        print("=" * 55)
+        print(f"Mensaje recibido: {mensaje}")
+
+        if ubicacion_actual:
+            print(
+                "Ubicación GPS: "
+                f"{ubicacion_actual.get('lat')}, "
+                f"{ubicacion_actual.get('lon')}"
+            )
+        else:
+            print("Ubicación GPS: No proporcionada")
 
         # =====================================
-        # EXTRAER ORIGEN DESTINO
+        # EXTRAER ORIGEN Y DESTINO
         # =====================================
 
         datos_ia = extraer_origen_destino(mensaje) or {}
-        origen_texto = limpiar_referencia_lugar(datos_ia.get("origen"))
-        destino_texto = limpiar_referencia_lugar(datos_ia.get("destino"))
 
-        print("IA ORIGEN:", origen_texto)
-        print("IA DESTINO:", destino_texto)
+        origen_texto = limpiar_referencia_lugar(
+            datos_ia.get("origen")
+        )
+
+        destino_texto = limpiar_referencia_lugar(
+            datos_ia.get("destino")
+        )
+
+        print("\nINTERPRETACIÓN MEDIANTE IA")
+        print("-" * 55)
+        print(f"Origen identificado: {origen_texto or 'No identificado'}")
+        print(f"Destino identificado: {destino_texto or 'No identificado'}")
 
         # =====================================
         # RESOLVER ORIGEN
         # =====================================
 
         origen = None
+
         if origen_texto:
             origen = resolver_lugar(origen_texto)
 
@@ -168,6 +190,7 @@ def chat():
 
         if not origen and ubicacion_actual:
             origen_texto = "Mi ubicación actual"
+
             origen = {
                 "lat": ubicacion_actual["lat"],
                 "lon": ubicacion_actual["lon"],
@@ -179,21 +202,29 @@ def chat():
         # =====================================
 
         if not destino_texto:
-            posible_destino = datos_ia.get("destino") or datos_ia.get("origen")
-            destino_texto = limpiar_referencia_lugar(posible_destino)
+            posible_destino = (
+                datos_ia.get("destino")
+                or datos_ia.get("origen")
+            )
+
+            destino_texto = limpiar_referencia_lugar(
+                posible_destino
+            )
 
         if not origen:
             return jsonify({
-                "respuesta": "No pude identificar el origen. Activa tu ubicación o escribe desde dónde sales."
+                "respuesta": (
+                    "No pude identificar el origen. "
+                    "Activa tu ubicación o escribe desde dónde sales."
+                )
             }), 400
 
         if not destino_texto:
-            return jsonify({"respuesta": "No pude identificar el destino."}), 400
+            return jsonify({
+                "respuesta": "No pude identificar el destino."
+            }), 400
 
         destino = resolver_lugar(destino_texto)
-
-        print("ORIGEN:", origen)
-        print("DESTINO:", destino)
 
         if not destino:
             return jsonify({
@@ -201,53 +232,221 @@ def chat():
             }), 404
 
         # =====================================
+        # MOSTRAR LUGARES RESUELTOS
+        # =====================================
+
+        print("\nLOCALIZACIÓN DE LUGARES")
+        print("-" * 55)
+
+        print(
+            f"Origen localizado: "
+            f"{origen.get('nombre', origen_texto)}"
+        )
+
+        print(
+            f"Coordenadas origen: "
+            f"{origen.get('lat')}, {origen.get('lon')}"
+        )
+
+        print(
+            f"Destino localizado: "
+            f"{destino.get('nombre', destino_texto)}"
+        )
+
+        print(
+            f"Coordenadas destino: "
+            f"{destino.get('lat')}, {destino.get('lon')}"
+        )
+
+        # =====================================
         # CALCULAR RUTA ÓPTIMA
         # =====================================
 
-        ruta_optima = buscar_ruta_optima(origen, destino)
-        print("\nRUTA ENCONTRADA:", ruta_optima)
+        ruta_optima = buscar_ruta_optima(
+            origen,
+            destino
+        )
 
         if not ruta_optima:
+            print("\nRESULTADO")
+            print("-" * 55)
+            print("No se encontró una ruta disponible.")
+
             return jsonify({
-                "respuesta": "No encontré una ruta disponible para ese recorrido."
+                "respuesta": (
+                    "No encontré una ruta disponible "
+                    "para ese recorrido."
+                )
             }), 404
 
         # =====================================
         # DATOS DE LA RUTA
         # =====================================
 
-        segmentos = ruta_optima.get("segmentos", [])
-        transbordos = ruta_optima.get("cantidad_transbordos", 0)
-        caminata_inicio = ruta_optima.get("caminata_inicio")
-        caminata_fin = ruta_optima.get("caminata_fin")
-        transbordos_info = ruta_optima.get("transbordos_info", [])
-        geojson = ruta_optima.get("geojson")
+        segmentos = ruta_optima.get(
+            "segmentos",
+            []
+        )
+
+        transbordos = ruta_optima.get(
+            "cantidad_transbordos",
+            0
+        )
+
+        caminata_inicio = ruta_optima.get(
+            "caminata_inicio"
+        )
+
+        caminata_fin = ruta_optima.get(
+            "caminata_fin"
+        )
+
+        transbordos_info = ruta_optima.get(
+            "transbordos_info",
+            []
+        )
+
+        geojson = ruta_optima.get(
+            "geojson"
+        )
+
+        lineas_utilizadas = ruta_optima.get(
+            "lineas_utilizadas",
+            []
+        )
+
+        total_paradas = ruta_optima.get(
+            "total_paradas",
+            0
+        )
+
+        parada_origen = ruta_optima.get(
+            "parada_origen",
+            {}
+        )
+
+        parada_destino = ruta_optima.get(
+            "parada_destino",
+            {}
+        )
+
+        # =====================================
+        # MOSTRAR RESUMEN DE LA RUTA
+        # =====================================
+
+        print("\nRUTA ENCONTRADA")
+        print("-" * 55)
+
+        print(
+            "Líneas utilizadas: "
+            + (
+                ", ".join(lineas_utilizadas)
+                if lineas_utilizadas
+                else "No disponible"
+            )
+        )
+
+        print(f"Total de paradas: {total_paradas}")
+        print(f"Transbordos necesarios: {transbordos}")
+
+        print(
+            "Parada de subida: "
+            f"{parada_origen.get('nombre', 'No disponible')}"
+        )
+
+        print(
+            "Parada de bajada: "
+            f"{parada_destino.get('nombre', 'No disponible')}"
+        )
+
+        if parada_origen.get("caminata_real") is not None:
+            print(
+                "Caminata inicial: "
+                f"{parada_origen.get('caminata_real')} metros"
+            )
+
+        if parada_destino.get("caminata_real") is not None:
+            print(
+                "Caminata final: "
+                f"{parada_destino.get('caminata_real')} metros"
+            )
+
+        print("\nSegmentos del recorrido:")
+
+        for numero, segmento in enumerate(
+            segmentos,
+            start=1
+        ):
+            print(
+                f"  {numero}. "
+                f"{segmento.get('linea', 'Línea desconocida')}"
+            )
+
+            print(
+                f"     Desde: "
+                f"{segmento.get('inicio', 'No disponible')}"
+            )
+
+            print(
+                f"     Hasta: "
+                f"{segmento.get('fin', 'No disponible')}"
+            )
+
+        print("\nEstado: Ruta calculada correctamente")
+        print("=" * 55)
 
         # =====================================
         # CREAR RESPUESTA TEXTO
         # =====================================
 
-        respuesta = f"Encontré una ruta desde {origen_texto} hasta {destino_texto}.\n\n"
-        respuesta += "Debes dirigirte a la parada más cercana para iniciar el recorrido.\n\n"
+        respuesta = (
+            f"Encontré una ruta desde "
+            f"{origen_texto} hasta {destino_texto}.\n\n"
+        )
+
+        respuesta += (
+            "Debes dirigirte a la parada más cercana "
+            "para iniciar el recorrido.\n\n"
+        )
 
         paso = 1
-        for indice, segmento in enumerate(segmentos):
-            linea = segmento.get("linea", "línea desconocida")
-            inicio = segmento.get("inicio", "")
-            fin = segmento.get("fin", "")
+
+        for indice, segmento in enumerate(
+            segmentos
+        ):
+            linea = segmento.get(
+                "linea",
+                "línea desconocida"
+            )
+
+            inicio = segmento.get(
+                "inicio",
+                ""
+            )
+
+            fin = segmento.get(
+                "fin",
+                ""
+            )
 
             respuesta += (
                 f"{paso}. Toma la {linea}.\n"
                 f"   Desde: {inicio}\n"
                 f"   Hasta: {fin}\n\n"
             )
+
             paso += 1
 
             if indice < len(segmentos) - 1:
-                respuesta += f"{paso}. Realiza transbordo.\n\n"
+                respuesta += (
+                    f"{paso}. Realiza transbordo.\n\n"
+                )
+
                 paso += 1
 
-        respuesta += f"Transbordos necesarios: {transbordos}"
+        respuesta += (
+            f"Transbordos necesarios: {transbordos}"
+        )
 
         # =====================================
         # GUARDAR HISTORIAL
